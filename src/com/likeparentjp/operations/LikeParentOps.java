@@ -10,12 +10,13 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.likeparentjp.utils.Queue;
+import com.likeparentjp.utils.Stack;
 import com.likeparentjp.utils.Utils;
 import com.soundcloud.android.crop.Crop;
 
@@ -47,9 +48,9 @@ public class LikeParentOps {
     private String[] mStringOption = { "Take Photo", "Choose from Gallery", "Cancel" };
     
     /**
-     * Queue to handle activity result correctly
+     * Stack to handle activity result correctly
      */
-    private Queue<View> mExecutionViewQueue = new Queue<View>();
+    private Stack<View> mExecutionViewStack = new Stack<View>();
     
     /**
      * 
@@ -65,6 +66,8 @@ public class LikeParentOps {
      */
     public void onConfigurationChange(Activity mActivity) {
         this.mActivity = new WeakReference<Activity>(mActivity);
+        //clear stack
+        mExecutionViewStack.clear();
     }
     
     /**
@@ -73,10 +76,9 @@ public class LikeParentOps {
     public void chooseAndSetImage(View v) {
         Log.i(TAG, "choose and set image");
         
-        //enqueue this view to know which view will display 
+        //push this view on stack to know which view will display 
         //the return Bitmap
-        mExecutionViewQueue.enqueue(v);
-
+        mExecutionViewStack.push(v);
         
         //build a choose dialog
         AlertDialog.Builder builder = new Builder(mActivity.get());
@@ -112,6 +114,9 @@ public class LikeParentOps {
                 beginCrop(data.getData());
             } else if (requestCode == REQUEST_TAKE_PHOTO) {
                 // TODO handle request take photo
+                Uri destination = Uri.fromFile(new File(mActivity.get().
+                                    getExternalCacheDir(), "temporary.jpg"));
+                beginCrop(destination);
             } else if (requestCode == Crop.REQUEST_CROP) {
                 handleCrop(data);
             }
@@ -123,7 +128,7 @@ public class LikeParentOps {
 
     //handle take photo action
     private void handleTakePhoto() {
-        Uri destination = Uri.fromFile(new File(mActivity.get().getCacheDir(), "temporary"));
+        Uri destination = Uri.fromFile(new File(mActivity.get().getExternalCacheDir(), "temporary.jpg"));
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
      // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(mActivity.
@@ -153,9 +158,13 @@ public class LikeParentOps {
         return new File(mActivity.get().getCacheDir(), "cropped");
     }
 
+    /**
+     * Handle intent data after cropped photo
+     * @param data
+     */
     private void handleCrop(Intent data) {
         //enqueue view from queue
-        ImageButton imageButton = (ImageButton) mExecutionViewQueue.dequeue();
+        ImageButton imageButton = (ImageButton) mExecutionViewStack.pop();
         //re-set bit map image for image button
         Utils.setImageView(imageButton, getTempCropFile());
         
