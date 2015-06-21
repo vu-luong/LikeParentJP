@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
 				
-                <Button 
+                <ImageButton 
                     android:id="@+id/bt_dad"
                     android:layout_width="115dp"
                     android:layout_height="115dp"
@@ -38,8 +38,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
-                    android:onClick="chooseAndSetDadImage">
-                </Button>
+                    android:onClick="chooseAndSetImage">
+                </ImageButton>
                 
                 
                 
@@ -50,7 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
 				
-                <Button 
+                <ImageButton 
                     android:id="@+id/bt_mom"
                     android:layout_width="115dp"
                     android:layout_height="115dp"
@@ -58,9 +58,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="15dp"
-                    android:onClick="chooseAndSetMomImage">
+                    android:onClick="chooseAndSetImage">
                     
-                </Button>
+                </ImageButton>
                 
                 
                 
@@ -75,14 +75,14 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1" >
             
-            <Button
+            <ImageButton
                 android:id="@+id/bt_child"
                 android:layout_width="115dp"
                 android:layout_height="115dp"
                 android:background="@drawable/pframe" 
                 android:layout_centerInParent="true"
-                android:onClick="chooseAndSetChildImage">
-            </Button>
+                android:onClick="chooseAndSetImage">
+            </ImageButton>
             
         </RelativeLayout>
     </LinearLayout>
