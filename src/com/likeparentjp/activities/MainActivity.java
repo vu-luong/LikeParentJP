@@ -42,7 +42,7 @@ public class MainActivity extends LifecycleLoggingActivity {
 	 */
 	private Button mResetImage;
 	/**
-	 * Button to analyze 
+	 * Button to analyze
 	 */
 	private Button mAnalyze;
 
@@ -54,10 +54,10 @@ public class MainActivity extends LifecycleLoggingActivity {
         mButtonContainer = (LinearLayout) findViewById(R.id.btn_container);
         mResetImage = (Button) findViewById(R.id.btn_reset);
         mAnalyze = (Button) findViewById(R.id.btn_analyze);
-        
+
         //set touch listener for color changing
         mResetImage.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN ) {
@@ -71,10 +71,10 @@ public class MainActivity extends LifecycleLoggingActivity {
 				return false;
 			}
 		});
-        
+
         //set on touch for color changing
         mAnalyze.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN ) {
@@ -88,7 +88,7 @@ public class MainActivity extends LifecycleLoggingActivity {
 				return false;
 			}
 		});
-        
+
         //handle configuration change
         handleConfigurationChange();
     }
@@ -96,38 +96,24 @@ public class MainActivity extends LifecycleLoggingActivity {
     private void handleConfigurationChange() {
         if (mRetainedFragmentManager.firstTimeIn())  {
             Log.d(TAG, "First time onCreate() call");
-            
+
             //first time in, create new Operation object
             mOps = new LikeParentOps(this);
             //store object reference
             mRetainedFragmentManager.put(OPERATION_TAG, mOps);
         } else {
             Log.d(TAG, "Not the first time");
-            
+
             //reobtain object
             mOps = mRetainedFragmentManager.get(OPERATION_TAG);
             mOps.onConfigurationChange(this);
         }
     }
-    
-    /**
-     * This method run when user click on Dad image's frame
-     */
-    public void chooseAndSetDadImage(View v) {
-        mOps.chooseAndSetDadImage(v);
-    }
-    /**
-     * This method run when user click on Mom image's frame
-     */
-    public void chooseAndSetMomImage(View v) {
-        mOps.chooseAndSetMomImage(v);
-    }
-    
-    /**
-     * This method run when user click on Mom image's frame
-     */
-    public void chooseAndSetChildImage(View v) {
-        mOps.chooseAndSetChildImage(v);
-    }
 
+    /**
+     * This method run when user click on image's frame
+     */
+    public void chooseAndSetImage(View v) {
+        mOps.chooseAndSetImage(v);
+    }
 }

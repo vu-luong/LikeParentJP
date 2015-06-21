@@ -38,7 +38,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="25dp"
-                    android:onClick="chooseAndSetDadImage">
+                    android:onClick="chooseAndSetImage">
                 </Button>
                 
                 
@@ -58,7 +58,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="25dp"
-                    android:onClick="chooseAndSetMomImage">
+                    android:onClick="chooseAndSetImage">
                     
                 </Button>
                 
@@ -81,7 +81,7 @@
                 android:layout_height="280dp"
                 android:background="@drawable/pframe" 
                 android:layout_centerInParent="true"
-                android:onClick="chooseAndSetChildImage">
+                android:onClick="chooseAndSetImage">
             </Button>
             
         </RelativeLayout>

@@ -36,23 +36,10 @@ public class LikeParentOps {
     }
     
     /**
-     * Method to choose and set dad image
+     * Method to choose and set image
      */
-    public void chooseAndSetDadImage(View v) {
-        Log.i(TAG, "choose and set dad image");
-    }
-    
-    /**
-     * Method to choose and set mom image
-     */
-    public void chooseAndSetMomImage(View v) {
-        Log.i(TAG, "choose and set mom image");
-    }
-    /**
-     * Method to choose and set mom image
-     */
-    public void chooseAndSetChildImage(View v) {
-        Log.i(TAG, "choose and set child image");
+    public void chooseAndSetImage(View v) {
+        Log.i(TAG, "choose and set image");
     }
     
     
