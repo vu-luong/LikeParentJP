@@ -1,5 +1,6 @@
 package com.likeparentjp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -45,6 +46,7 @@ public class MainActivity extends LifecycleLoggingActivity {
 	 * Button to analyze
 	 */
 	private Button mAnalyze;
+	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,12 +110,20 @@ public class MainActivity extends LifecycleLoggingActivity {
             mOps = mRetainedFragmentManager.get(OPERATION_TAG);
             mOps.onConfigurationChange(this);
         }
+        
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mOps.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
      * This method run when user click on image's frame
      */
     public void chooseAndSetImage(View v) {
+        //choose and set image
         mOps.chooseAndSetImage(v);
     }
+        
 }
