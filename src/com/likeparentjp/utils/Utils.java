@@ -63,13 +63,4 @@ public class Utils {
         imageView.setImageBitmap(scaledBitmap);
     }
 
-    /**
-     * Start crop photo from source uri, extract a cropped photo to destination uri
-     * @param source source uri
-     * @param destination destination uri
-     * @param activity activity to start crop activity
-     */
-    public static void startCrop(Uri source, Uri destination, Activity activity) {
-    }
-
 }
