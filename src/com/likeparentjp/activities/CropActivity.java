@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.edmodo.cropper.CropImageView;
 import com.likeparentjp.R;
@@ -135,7 +136,10 @@ public class CropActivity extends LifecycleLoggingActivity {
         if (bitmap != null) {
             mStoredBitmap = bitmap;
             setCropImageBitmap(bitmap);
+            
+            
             new DetectFaceTask(this).execute(bitmap);
+            
         }
     }
     
@@ -220,6 +224,10 @@ public class CropActivity extends LifecycleLoggingActivity {
             if (mProgressDialog != null) {
                 mProgressDialog.dismiss();
             }
+            
+            Toast.makeText(mActivity.get(), 
+            		"Number of faces found: " + FaceDetection.facesFound, Toast.LENGTH_SHORT).show();;
+            
             CropActivity activity = (CropActivity) mActivity.get();
             activity.setCropImageBitmap(result);
         }

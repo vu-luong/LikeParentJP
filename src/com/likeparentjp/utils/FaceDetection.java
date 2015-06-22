@@ -1,5 +1,6 @@
 package com.likeparentjp.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -9,9 +10,12 @@ import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
 import android.util.Log;
+import android.widget.Toast;
 
 public class FaceDetection {
 	private static final int MAX_FACES = 5;
+	
+	public static int facesFound;
 	
 	public static Bitmap detectFaces(Bitmap cameraBitmap) {
 		if (null != cameraBitmap) {
@@ -36,7 +40,7 @@ public class FaceDetection {
 			canvas.setBitmap(bitmap565);
 			canvas.drawBitmap(cameraBitmap, 0, 0, ditherPaint);
 
-			int facesFound = detector.findFaces(bitmap565, faces);
+			facesFound = detector.findFaces(bitmap565, faces);
 			PointF midPoint = new PointF();
 			float eyeDistance = 0.0f;
 			float confidence = 0.0f;

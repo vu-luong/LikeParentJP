@@ -61,7 +61,7 @@ public class MainActivity extends LifecycleLoggingActivity {
         mButtonContainer = (LinearLayout) findViewById(R.id.btn_container);
         mResetImage = (Button) findViewById(R.id.btn_reset);
         mAnalyze = (Button) findViewById(R.id.btn_analyze);
-
+ 
         //set touch listener for color changing
         mResetImage.setOnTouchListener(new OnTouchListener() {
 
