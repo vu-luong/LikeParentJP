@@ -2,13 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/tile_bg"
     android:orientation="vertical"
     tools:context="com.likeparentjp.activities.CropActivity" >
 
     <RelativeLayout
-        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
         android:layout_weight="1" >
 
         <com.edmodo.cropper.CropImageView
@@ -19,27 +20,39 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center" />
     </RelativeLayout>
-    
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="40dp"
         android:layout_weight="3" >
-        
-        <Button
-            android:id="@+id/button_rotate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="rotateCropImage"
-            android:text="Rotate" />
 
-        <Button
-            android:id="@+id/button_crop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:onClick="cropAndSaveImage"
-            android:text="Crop" />
-    </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/btn_container"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/btn"
+            android:weightSum="2" >
 
-    
+            <Button
+                android:id="@+id/button_rotate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:text="Rotate" />
+
+            <Button
+                android:id="@+id/button_crop"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:text="Crop" />
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>
