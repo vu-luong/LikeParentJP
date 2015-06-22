@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.widget.ImageView;
 
@@ -43,7 +44,7 @@ public class Utils {
      * @param cropFile 
      * @param data
      */
-    public static void setImageView(ImageView imageView, File cropFile) {
+    public static Bitmap setImageView(ImageView imageView, File cropFile) {
         // set bitmap image to null
         imageView.setImageDrawable(null);
         
@@ -61,6 +62,18 @@ public class Utils {
         
         //set image bitmap
         imageView.setImageBitmap(scaledBitmap);
+        return scaledBitmap;
+    }
+    
+    public static Bitmap rotateBitmap(Bitmap mBitmap, int times) {
+        //totals degree
+        int degrees = (90 * times) % 360;
+        //rotate Bitmap
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degrees);
+        mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
+        
+        return mBitmap;
     }
 
 }

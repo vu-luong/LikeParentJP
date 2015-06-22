@@ -9,14 +9,17 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
+import com.likeparentjp.R;
 import com.likeparentjp.activities.CropActivity;
-import com.likeparentjp.utils.Stack;
+import com.likeparentjp.activities.MainActivity;
 import com.likeparentjp.utils.Utils;
 
 /**
@@ -27,6 +30,12 @@ import com.likeparentjp.utils.Utils;
  *
  */
 public class LikeParentOps {
+    /**
+     * Helper flags
+     */
+    public static final int FLAG_DAD = 0;
+    public static final int FLAG_MOM = 1;
+    public static final int FLAG_CHILD = 2;
     /**
      * Request codes to start activities
      */
@@ -45,18 +54,18 @@ public class LikeParentOps {
      * String array option for alert dialog
      */
     private String[] mStringOption = { "Take Photo", "Choose from Gallery", "Cancel" };
-    
+
     /**
-     * Stack to handle activity result correctly
+     * Array Bitmap to analyze  
      */
-    private Stack<View> mExecutionViewStack = new Stack<View>();
+    private Bitmap[] mDataBitmap;
     
     /**
-     * 
-     * @param mActivity
+     * Construct new operations objects 
      */
     public LikeParentOps(Activity mActivity) {
         this.mActivity = new WeakReference<Activity>(mActivity);
+        this.mDataBitmap = new Bitmap[3];
     }
 
     /**
@@ -65,20 +74,25 @@ public class LikeParentOps {
      */
     public void onConfigurationChange(Activity mActivity) {
         this.mActivity = new WeakReference<Activity>(mActivity);
-        //clear stack
-        mExecutionViewStack.clear();
+        reinitializeView();
     }
     
+    private void reinitializeView() {
+        ImageButton momImg = (ImageButton) mActivity.get().findViewById(R.id.bt_mom);
+        momImg.setImageBitmap(mDataBitmap[FLAG_MOM]);
+        
+        ImageButton dadImg = (ImageButton) mActivity.get().findViewById(R.id.bt_dad);
+        dadImg.setImageBitmap(mDataBitmap[FLAG_DAD]);
+        
+        ImageButton childImg = (ImageButton) mActivity.get().findViewById(R.id.bt_child);
+        childImg.setImageBitmap(mDataBitmap[FLAG_CHILD]);
+    }
+
     /**
      * Method to choose and set image
      */
     public void chooseAndSetImage(View v) {
         Log.i(TAG, "choose and set image");
-        
-        //push this view on stack to know which view will display 
-        //the return Bitmap
-        mExecutionViewStack.push(v);
-        
         
         //build a choose dialog
         AlertDialog.Builder builder = new Builder(mActivity.get());
@@ -166,10 +180,12 @@ public class LikeParentOps {
      */
     private void handleCrop(Intent data) {
         //enqueue view from queue
-        ImageButton imageButton = (ImageButton) mExecutionViewStack.pop();
+        MainActivity mainActivity = (MainActivity) mActivity.get();
         //re-set bit map image for image button
         //TODO - optimize here
-        Utils.setImageView(imageButton, getTempCropFile());
+        Bitmap resultBitmap = Utils.setImageView((ImageView) mainActivity.getRecentViewRequest(),
+                    getTempCropFile());
+        mDataBitmap[mainActivity.getRecentFlagRequest()] = resultBitmap;
         
     }
     
