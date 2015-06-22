@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import com.edmodo.cropper.CropImageView;
 import com.likeparentjp.R;
 import com.likeparentjp.utils.FaceDetection;
 import com.likeparentjp.utils.LifecycleLoggingActivity;
+import com.likeparentjp.utils.Utils;
 
 /**
  * 
@@ -44,6 +46,14 @@ public class CropActivity extends LifecycleLoggingActivity {
      */
     private Bitmap mStoredBitmap;
     
+    /**
+     * Count the number of rotate operations
+     */
+    private int mRotateCount = 0;
+    
+    /**
+     * Function button
+     */
     private LinearLayout mContainerButton;
     private Button mCropButton;
     private Button mRotateButton;
@@ -55,7 +65,7 @@ public class CropActivity extends LifecycleLoggingActivity {
         //get Crop Image View reference
         mCropImageView = (CropImageView) findViewById(R.id.CropImageView);
         
-        //Init button
+        //initialize button features
         initButton();
         
         //set crop image
@@ -138,6 +148,9 @@ public class CropActivity extends LifecycleLoggingActivity {
     }
     
     public void cropAndSaveImage(View v) {
+        if (mRotateCount % 4 != 0) {
+            mStoredBitmap = Utils.rotateBitmap(mStoredBitmap, mRotateCount);
+        }
         mCropImageView.setBitmap(mStoredBitmap);
          
         //TODO - consider using another thread
@@ -164,7 +177,7 @@ public class CropActivity extends LifecycleLoggingActivity {
      */
     public void rotateCropImage(View v) {
         mCropImageView.rotateImage(90);
-        
+        mRotateCount++;
     }
     
     /**
@@ -183,10 +196,18 @@ public class CropActivity extends LifecycleLoggingActivity {
     
     
     private static class DetectFaceTask extends AsyncTask<Bitmap, Void, Bitmap> {
+        
         private WeakReference<Activity> mActivity;
+        private ProgressDialog mProgressDialog;
         
         public DetectFaceTask(Activity activity) {
             this.mActivity = new WeakReference<Activity>(activity);
+            mProgressDialog = new ProgressDialog(mActivity.get());
+            mProgressDialog.setTitle("Detecting Faces...");
+            mProgressDialog.setMessage("Please wait.");
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.show();
         }
         
         @Override
@@ -196,6 +217,9 @@ public class CropActivity extends LifecycleLoggingActivity {
         
         @Override
         protected void onPostExecute(Bitmap result) {
+            if (mProgressDialog != null) {
+                mProgressDialog.dismiss();
+            }
             CropActivity activity = (CropActivity) mActivity.get();
             activity.setCropImageBitmap(result);
         }
