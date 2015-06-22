@@ -12,7 +12,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.edmodo.cropper.CropImageView;
 import com.likeparentjp.R;
@@ -39,6 +43,10 @@ public class CropActivity extends LifecycleLoggingActivity {
      * Stored Bitmap
      */
     private Bitmap mStoredBitmap;
+    
+    private LinearLayout mContainerButton;
+    private Button mCropButton;
+    private Button mRotateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +54,56 @@ public class CropActivity extends LifecycleLoggingActivity {
         setContentView(R.layout.activity_crop);
         //get Crop Image View reference
         mCropImageView = (CropImageView) findViewById(R.id.CropImageView);
+        
+        //Init button
+        initButton();
+        
         //set crop image
         setupCropImage();
     }
+    
+    private void initButton() {
+    	mContainerButton = (LinearLayout) findViewById(R.id.btn_container);
+        mCropButton = (Button) findViewById(R.id.button_crop);
+        mRotateButton = (Button) findViewById(R.id.button_rotate);
+        
+        mCropButton.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+					mContainerButton.setBackgroundResource(R.drawable.btn2);
+                    return true;
+                }
+				if (event.getAction() == MotionEvent.ACTION_UP ) {
+					mContainerButton.setBackgroundResource(R.drawable.btn);
+					cropAndSaveImage(v);
+                    return true;
+                }
+				return false;
+			}
+		});
+        
+        mRotateButton.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+					mContainerButton.setBackgroundResource(R.drawable.btn1);
+                    return true;
+                }
+				if (event.getAction() == MotionEvent.ACTION_UP ) {
+					mContainerButton.setBackgroundResource(R.drawable.btn);
+					rotateCropImage(v);
+                    return true;
+                }
+				return false;
+			}
+		});
+    	
+    	
+    }
+    
 
     private void setupCropImage() {
         //set up crop option
@@ -84,6 +139,7 @@ public class CropActivity extends LifecycleLoggingActivity {
     
     public void cropAndSaveImage(View v) {
         mCropImageView.setBitmap(mStoredBitmap);
+         
         //TODO - consider using another thread
         Bitmap croppedBitmap = mCropImageView.getCroppedImage();
         //get uri :
@@ -108,6 +164,7 @@ public class CropActivity extends LifecycleLoggingActivity {
      */
     public void rotateCropImage(View v) {
         mCropImageView.rotateImage(90);
+        
     }
     
     /**
