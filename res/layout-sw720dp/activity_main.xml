@@ -36,8 +36,7 @@
                     android:layout_height="280dp"
                     android:background="@drawable/pframe"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_centerHorizontal="true"
                     android:onClick="chooseAndSetImage">
                 </ImageButton>
                 
@@ -56,8 +55,7 @@
                     android:layout_height="280dp"
                     android:background="@drawable/pframe"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="25dp"
+                    android:layout_centerHorizontal="true"
                     android:onClick="chooseAndSetImage">
                     
                 </ImageButton>

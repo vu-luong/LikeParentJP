@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.likeparentjp.R;
 import com.likeparentjp.utils.Stack;
 import com.likeparentjp.utils.Utils;
 import com.soundcloud.android.crop.Crop;
@@ -78,7 +79,10 @@ public class LikeParentOps {
         
         //push this view on stack to know which view will display 
         //the return Bitmap
-        mExecutionViewStack.push(v);
+        mExecutionViewStack.push(mActivity.get().findViewById(R.id.bt_dad));
+        
+        
+        
         
         //build a choose dialog
         AlertDialog.Builder builder = new Builder(mActivity.get());
