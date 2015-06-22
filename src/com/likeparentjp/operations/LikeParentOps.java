@@ -10,17 +10,14 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.likeparentjp.R;
+import com.likeparentjp.activities.CropActivity;
 import com.likeparentjp.utils.Stack;
 import com.likeparentjp.utils.Utils;
-import com.soundcloud.android.crop.Crop;
 
 /**
  * Class define operations for analyzing, resetting, etc of 
@@ -120,7 +117,7 @@ public class LikeParentOps {
                 Uri destination = Uri.fromFile(new File(mActivity.get().
                                     getExternalCacheDir(), "temporary.jpg"));
                 beginCrop(destination);
-            } else if (requestCode == Crop.REQUEST_CROP) {
+            } else if (requestCode == CropActivity.REQUEST_CROP ) { //TODO
                 handleCrop(data);
             }
         } else {
@@ -133,7 +130,7 @@ public class LikeParentOps {
     private void handleTakePhoto() {
         Uri destination = Uri.fromFile(new File(mActivity.get().getExternalCacheDir(), "temporary.jpg"));
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-     // Ensure that there's a camera activity to handle the intent
+        // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(mActivity.
                 get().getPackageManager()) != null) {
             
@@ -147,6 +144,7 @@ public class LikeParentOps {
     }
     //handle choose photo action
     private void handleChooseFromGallery() {
+        Log.i(TAG, "Choose image from gallery");
         Utils.pickImage(mActivity.get(), REQUEST_CHOOSE_PHOTO);
     }
 
@@ -154,12 +152,13 @@ public class LikeParentOps {
         //crop image and save into a file on cache directory 
         Uri destination = Uri.fromFile(getTempCropFile());
         //start crop
-        Utils.startCrop(source, destination, mActivity.get());
+        Utils.cropImage(mActivity.get(), source, destination);
     }
     
     public File getTempCropFile() {
         return new File(mActivity.get().getCacheDir(), "cropped");
     }
+    
 
     /**
      * Handle intent data after cropped photo
@@ -169,6 +168,7 @@ public class LikeParentOps {
         //enqueue view from queue
         ImageButton imageButton = (ImageButton) mExecutionViewStack.pop();
         //re-set bit map image for image button
+        //TODO - optimize here
         Utils.setImageView(imageButton, getTempCropFile());
         
     }

@@ -3,13 +3,14 @@ package com.likeparentjp.utils;
 import java.io.File;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.widget.ImageView;
 
+import com.likeparentjp.activities.CropActivity;
 import com.likeparentjp.utils.ScalingUtilities.ScalingLogic;
-import com.soundcloud.android.crop.Crop;
 
 /**
  * Class provide helper static methods
@@ -26,7 +27,13 @@ public class Utils {
      * @param requestCode Request code
      */
     public static void pickImage(Activity activity, int requestCode) {
-        Crop.pickImage(activity, requestCode);
+        Intent intentPickImage = new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
+        activity.startActivityForResult(intentPickImage, requestCode);
+    }
+    
+    public static void cropImage(Activity activity, Uri uri, Uri destination) {
+        Intent intentCropImage = CropActivity.makeIntent(activity, uri, destination);
+        activity.startActivityForResult(intentCropImage, CropActivity.REQUEST_CROP);
     }
 
     /**
@@ -63,7 +70,6 @@ public class Utils {
      * @param activity activity to start crop activity
      */
     public static void startCrop(Uri source, Uri destination, Activity activity) {
-        Crop.of(source, destination).asSquare().start(activity);
     }
 
 }
