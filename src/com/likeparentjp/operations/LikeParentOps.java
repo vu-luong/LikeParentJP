@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.likeparentjp.R;
 import com.likeparentjp.utils.Stack;
@@ -79,9 +80,7 @@ public class LikeParentOps {
         
         //push this view on stack to know which view will display 
         //the return Bitmap
-        mExecutionViewStack.push(mActivity.get().findViewById(R.id.bt_dad));
-        
-        
+        mExecutionViewStack.push(v);
         
         
         //build a choose dialog

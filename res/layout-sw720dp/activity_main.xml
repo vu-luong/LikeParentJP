@@ -30,15 +30,31 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
 				
-                <ImageButton 
-                    android:id="@+id/bt_dad"
-                    android:layout_width="280dp"
-                    android:layout_height="280dp"
-                    android:background="@drawable/pframe"
+                <RelativeLayout
+                    android:layout_width="310dp"
+                    android:layout_height="310dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:onClick="chooseAndSetImage">
-                </ImageButton>
+                    android:layout_centerHorizontal="true" >
+
+                    <ImageButton
+                        android:id="@+id/bt_dad"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/pframe"
+                        android:layout_margin="5dp"
+                        android:onClick="chooseAndSetImage" >
+                    </ImageButton>
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/outframe"
+                        android:clickable="false"/>
+                </RelativeLayout>
                 
                 
                 
@@ -49,16 +65,31 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
 				
-                <ImageButton 
-                    android:id="@+id/bt_mom"
-                    android:layout_width="280dp"
-                    android:layout_height="280dp"
-                    android:background="@drawable/pframe"
+                <RelativeLayout
+                    android:layout_width="310dp"
+                    android:layout_height="310dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:onClick="chooseAndSetImage">
-                    
-                </ImageButton>
+                    android:layout_centerHorizontal="true" >
+
+                    <ImageButton
+                        android:id="@+id/bt_mom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/pframe"
+                        android:layout_margin="5dp"
+                        android:onClick="chooseAndSetImage" >
+                    </ImageButton>
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/outframe"
+                        android:clickable="false"/>
+                </RelativeLayout>
                 
                 
                 
@@ -73,14 +104,30 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1.05" >
             
-            <ImageButton
-                android:id="@+id/bt_child"
-                android:layout_width="280dp"
-                android:layout_height="280dp"
-                android:background="@drawable/pframe" 
-                android:layout_centerInParent="true"
-                android:onClick="chooseAndSetImage">
-            </ImageButton>
+            <RelativeLayout
+                android:layout_width="310dp"
+                android:layout_height="310dp"
+                android:layout_centerInParent="true" >
+
+                <ImageButton
+                    android:id="@+id/bt_child"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/pframe"
+                    android:onClick="chooseAndSetImage" >
+                </ImageButton>
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/outframe"
+                    android:clickable="false" />
+            </RelativeLayout>
             
         </RelativeLayout>
     </LinearLayout>
