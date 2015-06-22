@@ -22,46 +22,71 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.95"
-            android:orientation="horizontal" 
-            android:weightSum="2">
+            android:orientation="horizontal"
+            android:weightSum="2" >
 
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
-				
-                <ImageButton 
-                    android:id="@+id/bt_dad"
-                    android:layout_width="180dp"
-                    android:layout_height="180dp"
-                    android:background="@drawable/pframe"
+
+                <RelativeLayout
+                    android:layout_width="190dp"
+                    android:layout_height="190dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:onClick="chooseAndSetImage">
-                </ImageButton>
-                
-                
-                
+                    android:layout_centerHorizontal="true" >
+
+                    <ImageButton
+                        android:id="@+id/bt_dad"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/pframe"
+                        android:onClick="chooseAndSetImage" >
+                    </ImageButton>
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/outframe"
+                        android:clickable="false" />
+                </RelativeLayout>
             </RelativeLayout>
-            
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
-				
-                <ImageButton 
-                    android:id="@+id/bt_mom"
-                    android:layout_width="180dp"
-                    android:layout_height="180dp"
-                    android:background="@drawable/pframe"
+
+                <RelativeLayout
+                    android:layout_width="190dp"
+                    android:layout_height="190dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:onClick="chooseAndSetImage">
-                    
-                </ImageButton>
-                
-                
-                
+                    android:layout_centerHorizontal="true" >
+
+                    <ImageButton
+                        android:id="@+id/bt_mom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/pframe"
+                        android:onClick="chooseAndSetImage" >
+                    </ImageButton>
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/outframe"
+                        android:clickable="false" />
+                </RelativeLayout>
             </RelativeLayout>
         </LinearLayout>
 
@@ -72,16 +97,31 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1.05" >
-            
-            <ImageButton
-                android:id="@+id/bt_child"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:background="@drawable/pframe" 
-                android:layout_centerInParent="true"
-                android:onClick="chooseAndSetImage">
-            </ImageButton>
-            
+
+            <RelativeLayout
+                android:layout_width="190dp"
+                android:layout_height="190dp"
+                android:layout_centerInParent="true" >
+
+                <ImageButton
+                    android:id="@+id/bt_child"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/pframe"
+                    android:onClick="chooseAndSetImage" >
+                </ImageButton>
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/outframe"
+                    android:clickable="false" />
+            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 
