@@ -1,18 +1,18 @@
 package com.likeparentjp.activities;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -22,35 +22,35 @@ import android.widget.Toast;
 
 import com.edmodo.cropper.CropImageView;
 import com.likeparentjp.R;
+import com.likeparentjp.operations.CropOps;
 import com.likeparentjp.utils.FaceDetection;
 import com.likeparentjp.utils.LifecycleLoggingActivity;
-import com.likeparentjp.utils.Utils;
+import com.likeparentjp.utils.RetainedFragmentManager;
 
 /**
- * 
  * @author applehouse
- *
  */
 public class CropActivity extends LifecycleLoggingActivity {
     public static final int REQUEST_CROP = 234221;
     /**
      * Key to find destination uri to save cropped image 
      */
-    private static final String DESTINATION_TAG = "i'm yours";
+    public static final String DESTINATION_TAG = "i'm yours";
+    /**
+     * Retain Fragment Manager to handle configuration change
+     */
+    private RetainedFragmentManager mRetainedFragmentManager =
+            new RetainedFragmentManager(getFragmentManager(), TAG);
+
     /**
      * Crop image view to crop image
      */
     private CropImageView mCropImageView;
     
     /**
-     * Stored Bitmap
+     * Operation of this view, play role presenter in pattern
      */
-    private Bitmap mStoredBitmap;
-    
-    /**
-     * Count the number of rotate operations
-     */
-    private int mRotateCount = 0;
+    private CropOps mOps;
     
     /**
      * Function button
@@ -58,21 +58,46 @@ public class CropActivity extends LifecycleLoggingActivity {
     private LinearLayout mContainerButton;
     private Button mCropButton;
     private Button mRotateButton;
+    private String OPERATION_TAG = "crops_tag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop);
-        //get Crop Image View reference
-        mCropImageView = (CropImageView) findViewById(R.id.CropImageView);
+        //get Crop Image View reference and set up crop option
+        mCropImageView = (CropImageView) findViewById(R.id.CropImageView);        
+        mCropImageView.setFixedAspectRatio(true);
+        mCropImageView.setAspectRatio(CropImageView.DEFAULT_ASPECT_RATIO_X,
+                                      CropImageView.DEFAULT_ASPECT_RATIO_Y);
+
         
         //initialize button features
         initButton();
         
-        //set crop image
+        //handle configuration changes
+        handleConfigurationChange();
+        
+        //setup crop image 
         setupCropImage();
     }
     
+    private void handleConfigurationChange() {
+        if (mRetainedFragmentManager.firstTimeIn())  {
+            Log.d(TAG, "First time onCreate() call");
+
+            //first time in, create new Operation object
+            mOps = new CropOps(this);
+            //store object reference
+            mRetainedFragmentManager.put(OPERATION_TAG , mOps);
+        } else {
+            Log.d(TAG, "Not the first time");
+
+            //reobtain object
+            mOps = mRetainedFragmentManager.get(OPERATION_TAG);
+            mOps.onConfigurationChange(this);
+        }
+    }
+
     private void initButton() {
     	mContainerButton = (LinearLayout) findViewById(R.id.btn_container);
         mCropButton = (Button) findViewById(R.id.button_crop);
@@ -117,11 +142,6 @@ public class CropActivity extends LifecycleLoggingActivity {
     
 
     private void setupCropImage() {
-        //set up crop option
-        
-        mCropImageView.setFixedAspectRatio(true);
-        mCropImageView.setAspectRatio(CropImageView.DEFAULT_ASPECT_RATIO_X,
-                                      CropImageView.DEFAULT_ASPECT_RATIO_Y);
         //get image uri
         Uri imageUri = getIntent().getData();
         Bitmap bitmap = null;
@@ -134,10 +154,8 @@ public class CropActivity extends LifecycleLoggingActivity {
         }
         
         if (bitmap != null) {
-            mStoredBitmap = bitmap;
+            mOps.setStoredBitmap(bitmap);
             setCropImageBitmap(bitmap);
-            
-            
             new DetectFaceTask(this).execute(bitmap);
             
         }
@@ -147,32 +165,16 @@ public class CropActivity extends LifecycleLoggingActivity {
      * Set image bit map to this crop image view
      * @param bitmap
      */
-    private void setCropImageBitmap(Bitmap bitmap) {
+    public void setCropImageBitmap(Bitmap bitmap) {
         mCropImageView.setImageBitmap(bitmap);
     }
     
+    /**
+     * Crop and save image when press crop button, delegate to CropOps instance
+     * @param v
+     */
     public void cropAndSaveImage(View v) {
-        if (mRotateCount % 4 != 0) {
-            mStoredBitmap = Utils.rotateBitmap(mStoredBitmap, mRotateCount);
-        }
-        mCropImageView.setBitmap(mStoredBitmap);
-         
-        //TODO - consider using another thread
-        Bitmap croppedBitmap = mCropImageView.getCroppedImage();
-        //get uri :
-        Uri saveUri = Uri.parse(getIntent().getStringExtra(DESTINATION_TAG));
-        
-        //saved image
-        OutputStream outputStream = null;
-        try {
-            outputStream = getContentResolver().openOutputStream(saveUri);
-            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        setResult(RESULT_OK);
-        finish();
+        mOps.cropAndSaveImage(v);
     }
     
     /**
@@ -181,17 +183,17 @@ public class CropActivity extends LifecycleLoggingActivity {
      */
     public void rotateCropImage(View v) {
         mCropImageView.rotateImage(90);
-        mRotateCount++;
+        mOps.rotateCropImage(v);
     }
     
     /**
      * Static method to return a intent to start this activity (Crop activity),
      * shield client from implementation detail
      * @param activity
-     * @param uri
+     * @param uri uri to image file use for cropping
      * @return Intent to start Crop Activity
      */
-    public static Intent makeIntent(Activity activity, Uri uri, Uri destination) {
+    public static Intent makeIntent(Context activity, Uri uri, Uri destination) {
         Intent intent = new Intent(activity, CropActivity.class);
         intent.setData(uri);
         intent.putExtra(DESTINATION_TAG, destination.toString());
@@ -226,10 +228,11 @@ public class CropActivity extends LifecycleLoggingActivity {
             }
             
             Toast.makeText(mActivity.get(), 
-            		"Number of faces found: " + FaceDetection.facesFound, Toast.LENGTH_SHORT).show();;
+            		"Number of faces found : " + FaceDetection.facesFound, Toast.LENGTH_SHORT).show();;
             
             CropActivity activity = (CropActivity) mActivity.get();
-            activity.setCropImageBitmap(result);
+            if (result != null)
+                activity.setCropImageBitmap(result);
         }
         
     }
