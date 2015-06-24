@@ -45,17 +45,27 @@ public class CropOps {
         this.mActivity = new WeakReference<CropActivity>(cropActivity);
     }
 
-
+    /**
+     * Return stored bitmap of crop activity
+     * @return
+     */
     public Bitmap getStoredBitmap() {
         return mStoredBitmap;
     }
 
-
+    /**
+     * Set stored bitmap of crop activity
+     * @param mStoredBitmap
+     */
     public void setStoredBitmap(Bitmap mStoredBitmap) {
         this.mStoredBitmap = mStoredBitmap;
     }
 
 
+    /**
+     * Crop and save image 
+     * @param v
+     */
     public void cropAndSaveImage(View v) {
         Log.i(TAG, "Crop and save photo");
         if (mRotateCount % 4 != 0) {

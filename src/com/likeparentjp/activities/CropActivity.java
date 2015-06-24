@@ -169,6 +169,10 @@ public class CropActivity extends LifecycleLoggingActivity {
         mCropImageView.setImageBitmap(bitmap);
     }
     
+    /**
+     * Crop and save image when press crop button, delegate to CropOps instance
+     * @param v
+     */
     public void cropAndSaveImage(View v) {
         mOps.cropAndSaveImage(v);
     }
