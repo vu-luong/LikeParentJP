@@ -1,6 +1,5 @@
 package com.likeparentjp.utils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -10,7 +9,6 @@ import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
 import android.util.Log;
-import android.widget.Toast;
 
 public class FaceDetection {
 	private static final int MAX_FACES = 5;
@@ -64,23 +62,7 @@ public class FaceDetection {
 									+ eyeDistance, drawPaint);
 				}
 			}
-
-//			String filepath = Environment.getExternalStorageDirectory()
-//					+ "/facedetect" + System.currentTimeMillis() + ".jpg";
-//
-//			try {
-//				FileOutputStream fos = new FileOutputStream(filepath);
-//
-//				bitmap565.compress(CompressFormat.JPEG, 90, fos);
-//
-//				fos.flush();
-//				fos.close();
-//			} catch (FileNotFoundException e) {
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-
+			
 			return bitmap565;
 		} else return null;
 	}

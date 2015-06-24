@@ -16,7 +16,7 @@ import com.likeparentjp.utils.RetainedFragmentManager;
 import com.likeparentjp.utils.Stack;
 
 /**
- * MainActivity of Like Parent application
+ * MainActivity of Like Parent application, play role View of MVP pattern
  * @author AnhLV
  * @author NhanTQD
  *
@@ -58,6 +58,13 @@ public class MainActivity extends LifecycleLoggingActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //initialize view
+        initializeView();
+
+        //handle configuration change
+        handleConfigurationChange();
+    }
+    
+    private void initializeView() {
         mButtonContainer = (LinearLayout) findViewById(R.id.btn_container);
         mResetImage = (Button) findViewById(R.id.btn_reset);
         mAnalyze = (Button) findViewById(R.id.btn_analyze);
@@ -65,39 +72,36 @@ public class MainActivity extends LifecycleLoggingActivity {
         //set touch listener for color changing
         mResetImage.setOnTouchListener(new OnTouchListener() {
 
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-					mButtonContainer.setBackgroundResource(R.drawable.btn1);
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                    mButtonContainer.setBackgroundResource(R.drawable.btn1);
                     return true;
                 }
-				if (event.getAction() == MotionEvent.ACTION_UP ) {
-					mButtonContainer.setBackgroundResource(R.drawable.btn);
+                if (event.getAction() == MotionEvent.ACTION_UP ) {
+                    mButtonContainer.setBackgroundResource(R.drawable.btn);
                     return true;
                 }
-				return false;
-			}
-		});
+                return false;
+            }
+        });
 
         //set on touch for color changing
         mAnalyze.setOnTouchListener(new OnTouchListener() {
 
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-					mButtonContainer.setBackgroundResource(R.drawable.btn2);
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                    mButtonContainer.setBackgroundResource(R.drawable.btn2);
                     return true;
                 }
-				if (event.getAction() == MotionEvent.ACTION_UP ) {
-					mButtonContainer.setBackgroundResource(R.drawable.btn);
+                if (event.getAction() == MotionEvent.ACTION_UP ) {
+                    mButtonContainer.setBackgroundResource(R.drawable.btn);
                     return true;
                 }
-				return false;
-			}
-		});
-
-        //handle configuration change
-        handleConfigurationChange();
+                return false;
+            }
+        });
     }
 
     private void handleConfigurationChange() {
@@ -139,7 +143,7 @@ public class MainActivity extends LifecycleLoggingActivity {
             mFlagStack.push(LikeParentOps.FLAG_CHILD);
         }
         
-        //choose and set image
+        //choose and set image, call to presenter
         mOps.chooseAndSetImage(v);
     }
     
