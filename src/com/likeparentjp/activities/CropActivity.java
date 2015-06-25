@@ -34,8 +34,8 @@ public class CropActivity extends LifecycleLoggingActivity {
     /**
      * Retain Fragment Manager to handle configuration change
      */
-    private RetainedFragmentManager mRetainedFragmentManager = new RetainedFragmentManager(
-            getFragmentManager(), TAG);
+    private RetainedFragmentManager mRetainedFragmentManager = 
+            new RetainedFragmentManager(getFragmentManager(), TAG);
 
     /**
      * Crop image view to crop image
