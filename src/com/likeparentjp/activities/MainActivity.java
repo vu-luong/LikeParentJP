@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.likeparentjp.R;
 import com.likeparentjp.fragments.MainFragment;
+import com.likeparentjp.fragments.ResultFragment;
 import com.likeparentjp.operations.LikeParentOps;
 import com.likeparentjp.utils.LifecycleLoggingActivity;
 import com.likeparentjp.utils.RetainedFragmentManager;
@@ -38,6 +39,12 @@ public class MainActivity extends LifecycleLoggingActivity {
      */
     private MainFragment mMainFragment;
     
+    /**
+     * Initial result fragment
+     */
+    
+    private ResultFragment mResultFragment;
+    
 	/**
      * Stacks to handle activity result correctly
      */
@@ -53,6 +60,8 @@ public class MainActivity extends LifecycleLoggingActivity {
             if (savedInstanceState == null) {
                 //set initial fragment
                 mMainFragment = new MainFragment();
+                mResultFragment = new ResultFragment();
+                
                 getFragmentManager().beginTransaction()
                                     .add(R.id.fragment_container, mMainFragment)
                                     .commit();
@@ -63,6 +72,11 @@ public class MainActivity extends LifecycleLoggingActivity {
         handleConfigurationChange();
     }
     
+    public void switchToResultFragment(){
+    	getFragmentManager().beginTransaction()
+        .replace(R.id.fragment_container, mResultFragment)
+        .commit();
+    }
     
     private void handleConfigurationChange() {
         if (mRetainedFragmentManager.firstTimeIn())  {
@@ -86,6 +100,8 @@ public class MainActivity extends LifecycleLoggingActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mOps.onActivityResult(requestCode, resultCode, data);
     }
+    
+    
 
     /**
      * This method run when user click on image's frame
@@ -135,6 +151,7 @@ public class MainActivity extends LifecycleLoggingActivity {
      */
     public void analyzeImage() {
         mOps.analyzeImage();
+        switchToResultFragment();
     }
         
 }

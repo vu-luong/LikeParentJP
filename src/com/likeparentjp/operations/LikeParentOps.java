@@ -199,7 +199,6 @@ public class LikeParentOps {
      */
     public void analyzeImage() {
         // TODO analyze here
-        
     }
     
     

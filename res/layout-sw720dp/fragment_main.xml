@@ -10,10 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="top"
-        android:layout_marginBottom="110dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginBottom="140dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="120dp"
         android:background="@drawable/frame"
         android:orientation="vertical"
         android:weightSum="2" >
@@ -31,8 +31,8 @@
                 android:layout_weight="1" >
 
                 <RelativeLayout
-                    android:layout_width="190dp"
-                    android:layout_height="190dp"
+                    android:layout_width="310dp"
+                    android:layout_height="310dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true" >
 
@@ -63,8 +63,8 @@
                 android:layout_weight="1" >
 
                 <RelativeLayout
-                    android:layout_width="190dp"
-                    android:layout_height="190dp"
+                    android:layout_width="310dp"
+                    android:layout_height="310dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true" >
 
@@ -99,8 +99,8 @@
             android:layout_weight="1.05" >
 
             <RelativeLayout
-                android:layout_width="190dp"
-                android:layout_height="190dp"
+                android:layout_width="310dp"
+                android:layout_height="310dp"
                 android:layout_centerInParent="true" >
 
                 <ImageButton
@@ -149,6 +149,7 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:text="@string/reset_button"
                 android:textSize="16sp" />
 
             <Button
@@ -157,6 +158,7 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:text="@string/analyze_button"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>

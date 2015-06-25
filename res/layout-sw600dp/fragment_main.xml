@@ -22,14 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.95"
-            android:orientation="horizontal" 
-            android:weightSum="2">
+            android:orientation="horizontal"
+            android:weightSum="2" >
 
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
-				
+
                 <RelativeLayout
                     android:layout_width="230dp"
                     android:layout_height="230dp"
@@ -42,8 +42,8 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:background="@drawable/pframe"
                         android:layout_margin="5dp"
+                        android:background="@drawable/pframe"
                         android:onClick="chooseAndSetImage" >
                     </ImageButton>
 
@@ -53,18 +53,15 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:background="@drawable/outframe"
-                        android:clickable="false"/>
+                        android:clickable="false" />
                 </RelativeLayout>
-                
-                
-                
             </RelativeLayout>
-            
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
-				
+
                 <RelativeLayout
                     android:layout_width="230dp"
                     android:layout_height="230dp"
@@ -77,8 +74,8 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:background="@drawable/pframe"
                         android:layout_margin="5dp"
+                        android:background="@drawable/pframe"
                         android:onClick="chooseAndSetImage" >
                     </ImageButton>
 
@@ -88,11 +85,8 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:background="@drawable/outframe"
-                        android:clickable="false"/>
+                        android:clickable="false" />
                 </RelativeLayout>
-                
-                
-                
             </RelativeLayout>
         </LinearLayout>
 
@@ -103,7 +97,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1.05" >
-            
+
             <RelativeLayout
                 android:layout_width="230dp"
                 android:layout_height="230dp"
@@ -128,7 +122,6 @@
                     android:background="@drawable/outframe"
                     android:clickable="false" />
             </RelativeLayout>
-            
         </RelativeLayout>
     </LinearLayout>
 
@@ -156,6 +149,7 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:text="@string/reset_button"
                 android:textSize="16sp" />
 
             <Button
@@ -164,6 +158,7 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:text="@string/analyze_button"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>

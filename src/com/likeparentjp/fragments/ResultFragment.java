@@ -2,9 +2,11 @@ package com.likeparentjp.fragments;
 
 import com.likeparentjp.R;
 import com.likeparentjp.activities.MainActivity;
+import com.likeparentjp.entities.CircleDisplay;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,15 +15,24 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-public class MainFragment extends Fragment {
+public class ResultFragment extends Fragment {
+	
     private View mMainView;
     private LinearLayout mButtonContainer;
-    private Button mResetImage;
-    private Button mAnalyze;
+    private Button mShareButton;
+    private Button mRetakeButton;
+    private CircleDisplay mDadCircle, mMomCircle;
+    
+    /**
+     * width of screen
+     */
+    private int v_width;
+    
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        mMainView = inflater.inflate(R.layout.fragment_main, container, false);
+        mMainView = inflater.inflate(R.layout.fragment_result, container, false);
         return mMainView;
     }
     
@@ -30,13 +41,23 @@ public class MainFragment extends Fragment {
         super.onStart();
         initializeView();
     }
+    
+    
     private void initializeView() {
         mButtonContainer = (LinearLayout) findViewById(R.id.btn_container);
-        mResetImage = (Button) findViewById(R.id.btn_reset);
-        mAnalyze = (Button) findViewById(R.id.btn_analyze);
+        mShareButton = (Button) findViewById(R.id.btn_share);
+        mRetakeButton = (Button) findViewById(R.id.btn_retake);
+        mDadCircle = (CircleDisplay) findViewById(R.id.circleDisplayDad);
+        mMomCircle = (CircleDisplay)findViewById(R.id.circleDisplayMom);
+        
+    	v_width = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+        
+    	initialResultCircle(mDadCircle, "DAD", 50);
+    	initialResultCircle(mMomCircle, "MOM", 60);
+    	
  
         //set touch listener for color changing
-        mResetImage.setOnTouchListener(new OnTouchListener() {
+        mShareButton.setOnTouchListener(new OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -54,7 +75,7 @@ public class MainFragment extends Fragment {
         });
 
         //set on touch for color changing
-        mAnalyze.setOnTouchListener(new OnTouchListener() {
+        mRetakeButton.setOnTouchListener(new OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -73,7 +94,23 @@ public class MainFragment extends Fragment {
     }
 
     
-    public View findViewById(int id) {
+    private void initialResultCircle(CircleDisplay circleDisplay, String who, int i) {
+
+    	circleDisplay.setAnimDuration(2000);
+    	circleDisplay.setValueWidthPercent(55f);
+    	circleDisplay.setFormatDigits(1);
+    	circleDisplay.setDimAlpha(80);
+    	circleDisplay.setType(who);
+    	circleDisplay.setV_width(v_width);
+        
+    	circleDisplay.setTouchEnabled(false);
+    	circleDisplay.setUnit("%");
+    	circleDisplay.setStepSize(0.5f);
+    	circleDisplay.showValue(i, 100f, true);
+		
+	}
+
+	private View findViewById(int id) {
         return mMainView.findViewById(id);
     }
 }
