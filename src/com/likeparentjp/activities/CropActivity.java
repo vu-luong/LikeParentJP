@@ -62,12 +62,7 @@ public class CropActivity extends LifecycleLoggingActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop);
-        // get Crop Image View reference and set up crop option
-        mCropImageView = (CropImageView) findViewById(R.id.CropImageView);
-        mCropImageView.setFixedAspectRatio(true);
-        mCropImageView.setAspectRatio(CropImageView.DEFAULT_ASPECT_RATIO_X,
-                CropImageView.DEFAULT_ASPECT_RATIO_Y);
-
+        
         // initialize button features
         initialize();
 
@@ -100,6 +95,12 @@ public class CropActivity extends LifecycleLoggingActivity {
     }
 
     private void initialize() {
+        // get Crop Image View reference and set up crop option
+        mCropImageView = (CropImageView) findViewById(R.id.CropImageView);
+        mCropImageView.setFixedAspectRatio(true);
+        mCropImageView.setAspectRatio(CropImageView.DEFAULT_ASPECT_RATIO_X,
+                CropImageView.DEFAULT_ASPECT_RATIO_Y);
+        // initialize view buttons
         mContainerButton = (LinearLayout) findViewById(R.id.btn_container);
         mCropButton = (Button) findViewById(R.id.button_crop);
         mRotateButton = (Button) findViewById(R.id.button_rotate);
@@ -143,21 +144,7 @@ public class CropActivity extends LifecycleLoggingActivity {
     }
 
     private void setupCropImage() {
-        // get image uri
-        Uri imageUri = getIntent().getData();
-        Bitmap bitmap = null;
-        try {
-            // get a bitmap image from uri
-            bitmap = MediaStore.Images.Media.getBitmap(
-                            getContentResolver(), imageUri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (bitmap != null) {
-            setCropImageBitmap(bitmap);
-            mOps.setUpCropImage(bitmap);
-        }
+        mOps.setUpCropImage();
     }
 
     /**

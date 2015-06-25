@@ -1,6 +1,7 @@
 package com.likeparentjp.operations;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 
@@ -8,6 +9,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -65,7 +67,6 @@ public class CropOps {
      * @param v
      */
     public void cropAndSaveImage(View v) {
-        mActivity.get().showProgressDialog("Cropping image", "Please wait");
         //rotate the original bitmap
         if (mRotateCount % 4 != 0) {
             mStoredBitmap = Utils.rotateBitmap(mStoredBitmap, mRotateCount);
@@ -124,9 +125,25 @@ public class CropOps {
      * Set up stored bit map and detecting face
      * @param mStoredBitmap
      */
-    public void setUpCropImage(Bitmap mStoredBitmap) {
-        this.mStoredBitmap = mStoredBitmap;
-        mDetectFaceTask.execute(mStoredBitmap);
+    public void setUpCropImage() {
+     // get image uri
+        Uri imageUri = mActivity.get()
+                                .getIntent()
+                                .getData();
+        Bitmap bitmap = null;
+        try {
+            // get a bitmap image from uri
+            bitmap = MediaStore.Images.Media.getBitmap(
+                            mActivity.get().getContentResolver(), imageUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (bitmap != null) {
+            mActivity.get().setCropImageBitmap(bitmap);
+            this.mStoredBitmap = bitmap;
+            mDetectFaceTask.execute(bitmap);
+        }
     }
 
     private class DetectFaceTask extends AsyncTask<Bitmap, Void, Bitmap> {
