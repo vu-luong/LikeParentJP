@@ -101,7 +101,7 @@ public class CircleDisplay extends View implements OnGestureListener {
     
     private Typeface typeface1, typeface2;
     
-    private int v_width = 768;
+    private int v_width = 240;
     
     
     public CircleDisplay(Context context) {
@@ -154,8 +154,8 @@ public class CircleDisplay extends View implements OnGestureListener {
         if (v_width <= 320) setScale(2f); else
         if (v_width <= 480) setScale(1.15f); else 
         if (v_width < 700) setScale(1.1f); else
-        if (v_width < 1000) setScale(0.7f); else
-        setScale(0.35f);
+        if (v_width < 1000) setScale(0.8f); else
+        setScale(0.5f);
 	}
 
 	/** boolean flag that indicates if the box has been setup */
@@ -195,13 +195,14 @@ public class CircleDisplay extends View implements OnGestureListener {
     	
     	mTextPaint.setTypeface(typeface1);
     	
+    	
     	float temp = 1;
     	if (v_width <= 240) temp = 1.5f; else
         if (v_width <= 320) temp = 2f; else
         if (v_width <= 480) temp = 1.25f; else 
-        if (v_width <= 600) temp =  1f; else
-        if (v_width < 800) temp = 1.35f; else
-    	temp = 0.6f;
+        if (v_width < 700) temp =  1f; else
+        if (v_width < 1000) temp = 1.35f; else
+    	temp = 0.9f;
     	
     	temp = temp*1.1f;
 		
