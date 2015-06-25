@@ -5,6 +5,7 @@ import com.likeparentjp.activities.MainActivity;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class MainFragment extends Fragment {
+    protected final String TAG = getClass().getSimpleName();
     private View mMainView;
     private LinearLayout mButtonContainer;
     private Button mResetImage;
@@ -63,6 +65,7 @@ public class MainFragment extends Fragment {
                     return true;
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
+                    Log.i(TAG, "UPPPP");
                     mButtonContainer.setBackgroundResource(R.drawable.btn);
                     ((MainActivity) getActivity()).analyzeImage();
                     return true;

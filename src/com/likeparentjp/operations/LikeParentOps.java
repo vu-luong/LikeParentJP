@@ -11,6 +11,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,8 @@ import android.widget.ImageView;
 import com.likeparentjp.R;
 import com.likeparentjp.activities.CropActivity;
 import com.likeparentjp.activities.MainActivity;
+import com.likeparentjp.fragments.ResultFragment;
+import com.likeparentjp.operations.algorithm.LikeParentAlgorithm;
 import com.likeparentjp.utils.Utils;
 
 /**
@@ -59,13 +62,18 @@ public class LikeParentOps {
      * Array Bitmap to analyze  
      */
     private Bitmap[] mDataBitmap;
+    /**
+     * Instance of Like parent algorithm, use Strategy pattern
+     */
+    private LikeParentAlgorithm mAlgorithm;
     
     /**
      * Construct new operations objects 
      */
-    public LikeParentOps(Activity mActivity) {
+    public LikeParentOps(Activity mActivity, LikeParentAlgorithm algorithm) {
         this.mActivity = new WeakReference<Activity>(mActivity);
         this.mDataBitmap = new Bitmap[3];
+        this.mAlgorithm = algorithm;
     }
 
     /**
@@ -198,7 +206,30 @@ public class LikeParentOps {
      * Analyze images
      */
     public void analyzeImage() {
-        // TODO analyze here
+        //analyze the percent look-a-like dad of child
+        new AsyncTask<Bitmap[], Void, Float>() {
+            @Override
+            protected Float doInBackground(Bitmap[]... params) {
+                Bitmap[] bitmap = params[0];
+                Log.i(TAG, "analyzing");
+                //return the analyze result
+                return mAlgorithm.analyzeDadPercent(
+                        bitmap[FLAG_DAD], bitmap[FLAG_MOM],
+                        bitmap[FLAG_CHILD]);
+            }
+            
+            @Override
+            protected void onPostExecute(Float result) {
+                //post back the result
+                ((MainActivity) mActivity.get()).postResult(result);
+            }
+        }.execute(mDataBitmap);
+        
+        if (mDataBitmap[1] == null && mDataBitmap[2] == null && mDataBitmap[0] == null) {
+            Log.i(TAG, "null");
+        }
+        //TODO - reset the bitmap
+        reinitializeView(); // dang le chi can goi cai ni la duoc ma rang khong duoc :v
     }
     
     
