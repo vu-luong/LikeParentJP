@@ -3,13 +3,10 @@ package com.likeparentjp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.likeparentjp.R;
+import com.likeparentjp.fragments.MainFragment;
 import com.likeparentjp.operations.LikeParentOps;
 import com.likeparentjp.utils.LifecycleLoggingActivity;
 import com.likeparentjp.utils.RetainedFragmentManager;
@@ -35,18 +32,12 @@ public class MainActivity extends LifecycleLoggingActivity {
      * TAG of LikeParentOps object state
      */
     private String OPERATION_TAG = "Like_parent";
-	/**
-	 * Entity to control button color changing
-	 */
-	private LinearLayout mButtonContainer;
-	/**
-	 * Button to reset image
-	 */
-	private Button mResetImage;
-	/**
-	 * Button to analyze
-	 */
-	private Button mAnalyze;
+	
+    /**
+     * Initial main fragment
+     */
+    private MainFragment mMainFragment;
+    
 	/**
      * Stacks to handle activity result correctly
      */
@@ -57,53 +48,22 @@ public class MainActivity extends LifecycleLoggingActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //initialize view
-        initializeView();
-
+        
+        if (findViewById(R.id.fragment_container) != null) {
+            if (savedInstanceState == null) {
+                //set initial fragment
+                mMainFragment = new MainFragment();
+                getFragmentManager().beginTransaction()
+                                    .add(R.id.fragment_container, mMainFragment)
+                                    .commit();
+            }
+        }
+        
         //handle configuration change
         handleConfigurationChange();
     }
     
-    private void initializeView() {
-        mButtonContainer = (LinearLayout) findViewById(R.id.btn_container);
-        mResetImage = (Button) findViewById(R.id.btn_reset);
-        mAnalyze = (Button) findViewById(R.id.btn_analyze);
- 
-        //set touch listener for color changing
-        mResetImage.setOnTouchListener(new OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                    mButtonContainer.setBackgroundResource(R.drawable.btn1);
-                    return true;
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP ) {
-                    mButtonContainer.setBackgroundResource(R.drawable.btn);
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        //set on touch for color changing
-        mAnalyze.setOnTouchListener(new OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                    mButtonContainer.setBackgroundResource(R.drawable.btn2);
-                    return true;
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP ) {
-                    mButtonContainer.setBackgroundResource(R.drawable.btn);
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
-
+    
     private void handleConfigurationChange() {
         if (mRetainedFragmentManager.firstTimeIn())  {
             Log.d(TAG, "First time onCreate() call");
@@ -161,6 +121,20 @@ public class MainActivity extends LifecycleLoggingActivity {
      */
     public int getRecentFlagRequest() {
         return mFlagStack.pop();
+    }
+
+    /**
+     * Reset image, delegate to mOps
+     */
+    public void resetImage() {
+        mOps.resetImage();
+    }
+
+    /**
+     * Analyze image, delegate to mOps
+     */
+    public void analyzeImage() {
+        mOps.analyzeImage();
     }
         
 }

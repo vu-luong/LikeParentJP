@@ -127,11 +127,10 @@ public class LikeParentOps {
             if (requestCode == REQUEST_CHOOSE_PHOTO) {
                 beginCrop(data.getData());
             } else if (requestCode == REQUEST_TAKE_PHOTO) {
-                // TODO handle request take photo
                 Uri destination = Uri.fromFile(new File(mActivity.get().
                                     getExternalCacheDir(), "temporary.jpg"));
                 beginCrop(destination);
-            } else if (requestCode == CropActivity.REQUEST_CROP ) { //TODO
+            } else if (requestCode == CropActivity.REQUEST_CROP ) { 
                 handleCrop(data);
             }
         } else {
@@ -182,10 +181,24 @@ public class LikeParentOps {
         //enqueue view from queue
         MainActivity mainActivity = (MainActivity) mActivity.get();
         //re-set bit map image for image button
-        //TODO - optimize here
         Bitmap resultBitmap = Utils.setImageView((ImageView) mainActivity.getRecentViewRequest(),
                     getTempCropFile());
         mDataBitmap[mainActivity.getRecentFlagRequest()] = resultBitmap;
+        
+    }
+    
+    /**
+     * Reset images
+     */
+    public void resetImage() {
+        // TODO reset here
+    }
+
+    /**
+     * Analyze images
+     */
+    public void analyzeImage() {
+        // TODO analyze here
         
     }
     
