@@ -68,17 +68,20 @@ public class CropOps {
      */
     public void cropAndSaveImage(View v) {
         Log.i(TAG, "Crop and save photo");
+        
+        //rotate the original bitmap
         if (mRotateCount % 4 != 0) {
             mStoredBitmap = Utils.rotateBitmap(mStoredBitmap, mRotateCount);
         }
-        CropImageView mCiv = (CropImageView) mActivity.get().
-                                            findViewById(R.id.CropImageView);
+        //get cropped bitmap
+        CropImageView mCiv = (CropImageView) mActivity.get()
+                                .findViewById(R.id.CropImageView);
         mCiv.setBitmap(getStoredBitmap());
          
         Bitmap croppedBitmap = mCiv.getCroppedImage();
         //get uri :
-        Uri saveUri = Uri.parse(mActivity.get().getIntent().
-                            getStringExtra(CropActivity.DESTINATION_TAG));
+        Uri saveUri = Uri.parse(mActivity.get().getIntent()
+                        .getStringExtra(CropActivity.DESTINATION_TAG));
         
         //saved image
         OutputStream outputStream = null;
@@ -88,6 +91,7 @@ public class CropOps {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        //finish activity, return result
         mActivity.get().setResult(
                 Activity.RESULT_OK);
         mActivity.get().finish();        

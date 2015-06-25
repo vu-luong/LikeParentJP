@@ -131,7 +131,7 @@ public class LikeParentOps {
                 Uri destination = Uri.fromFile(new File(mActivity.get().
                                     getExternalCacheDir(), "temporary.jpg"));
                 beginCrop(destination);
-            } else if (requestCode == CropActivity.REQUEST_CROP ) { //TODO
+            } else if (requestCode == CropActivity.REQUEST_CROP ) { 
                 handleCrop(data);
             }
         } else {
@@ -182,7 +182,6 @@ public class LikeParentOps {
         //enqueue view from queue
         MainActivity mainActivity = (MainActivity) mActivity.get();
         //re-set bit map image for image button
-        //TODO - optimize here
         Bitmap resultBitmap = Utils.setImageView((ImageView) mainActivity.getRecentViewRequest(),
                     getTempCropFile());
         mDataBitmap[mainActivity.getRecentFlagRequest()] = resultBitmap;
