@@ -100,8 +100,9 @@ public class ResultFragment extends Fragment {
     	circleDisplay.setValueWidthPercent(55f);
     	circleDisplay.setFormatDigits(1);
     	circleDisplay.setDimAlpha(80);
-    	circleDisplay.setType(who);
+    	circleDisplay.setType(v_width + "");
     	circleDisplay.setV_width(v_width);
+    	
         
     	circleDisplay.setTouchEnabled(false);
     	circleDisplay.setUnit("%");
