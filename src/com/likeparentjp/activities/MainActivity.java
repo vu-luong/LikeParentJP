@@ -9,6 +9,7 @@ import com.likeparentjp.R;
 import com.likeparentjp.fragments.MainFragment;
 import com.likeparentjp.fragments.ResultFragment;
 import com.likeparentjp.operations.LikeParentOps;
+import com.likeparentjp.operations.algorithm.RandomAlgorithm;
 import com.likeparentjp.utils.LifecycleLoggingActivity;
 import com.likeparentjp.utils.RetainedFragmentManager;
 import com.likeparentjp.utils.Stack;
@@ -29,6 +30,7 @@ public class MainActivity extends LifecycleLoggingActivity {
      * Like parent operations
      */
     private LikeParentOps mOps;
+    
     /**
      * TAG of LikeParentOps object state
      */
@@ -51,17 +53,17 @@ public class MainActivity extends LifecycleLoggingActivity {
     private Stack<View> mExecutionViewStack = new Stack<View>();
     private Stack<Integer> mFlagStack = new Stack<Integer>();
     
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //set initial fragment
+        mMainFragment = new MainFragment();
+        mResultFragment = new ResultFragment();
         
         if (findViewById(R.id.fragment_container) != null) {
             if (savedInstanceState == null) {
-                //set initial fragment
-                mMainFragment = new MainFragment();
-                mResultFragment = new ResultFragment();
-                
                 getFragmentManager().beginTransaction()
                                     .add(R.id.fragment_container, mMainFragment)
                                     .commit();
@@ -73,6 +75,7 @@ public class MainActivity extends LifecycleLoggingActivity {
     }
     
     public void switchToResultFragment(){
+        Log.i(TAG, "switching to result fragment");
     	getFragmentManager().beginTransaction()
         .replace(R.id.fragment_container, mResultFragment)
         .commit();
@@ -83,7 +86,7 @@ public class MainActivity extends LifecycleLoggingActivity {
             Log.d(TAG, "First time onCreate() call");
 
             //first time in, create new Operation object
-            mOps = new LikeParentOps(this);
+            mOps = new LikeParentOps(this, new RandomAlgorithm());
             //store object reference
             mRetainedFragmentManager.put(OPERATION_TAG, mOps);
         } else {
@@ -150,8 +153,14 @@ public class MainActivity extends LifecycleLoggingActivity {
      * Analyze image, delegate to mOps
      */
     public void analyzeImage() {
-        mOps.analyzeImage();
         switchToResultFragment();
+        mOps.analyzeImage();
     }
+    
+    public void postResult(float percentDad) {
+        mResultFragment.postResult(percentDad);
+    }
+
+
         
 }

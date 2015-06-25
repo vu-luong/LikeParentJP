@@ -1,22 +1,23 @@
 package com.likeparentjp.fragments;
 
-import com.likeparentjp.R;
-import com.likeparentjp.activities.MainActivity;
-import com.likeparentjp.entities.CircleDisplay;
-
 import android.app.Fragment;
 import android.os.Bundle;
-import android.view.Display;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.likeparentjp.R;
+import com.likeparentjp.entities.CircleDisplay;
+
 public class ResultFragment extends Fragment {
 	
+    private final String TAG = getClass().getSimpleName(); 
+    
     private View mMainView;
     private LinearLayout mButtonContainer;
     private Button mShareButton;
@@ -26,12 +27,13 @@ public class ResultFragment extends Fragment {
     /**
      * width of screen
      */
-    private int v_width;
+    private int V_WIDTH;
     
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView");
         mMainView = inflater.inflate(R.layout.fragment_result, container, false);
         return mMainView;
     }
@@ -50,11 +52,8 @@ public class ResultFragment extends Fragment {
         mDadCircle = (CircleDisplay) findViewById(R.id.circleDisplayDad);
         mMomCircle = (CircleDisplay)findViewById(R.id.circleDisplayMom);
         
-    	v_width = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+    	V_WIDTH = getActivity().getWindowManager().getDefaultDisplay().getWidth();
         
-    	initialResultCircle(mDadCircle, "DAD", 50);
-    	initialResultCircle(mMomCircle, "MOM", 60);
-    	
  
         //set touch listener for color changing
         mShareButton.setOnTouchListener(new OnTouchListener() {
@@ -67,7 +66,6 @@ public class ResultFragment extends Fragment {
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
                     mButtonContainer.setBackgroundResource(R.drawable.btn);
-                    ((MainActivity) getActivity()).resetImage();
                     return true;
                 }
                 return false;
@@ -85,7 +83,6 @@ public class ResultFragment extends Fragment {
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
                     mButtonContainer.setBackgroundResource(R.drawable.btn);
-                    ((MainActivity) getActivity()).analyzeImage();
                     return true;
                 }
                 return false;
@@ -94,14 +91,14 @@ public class ResultFragment extends Fragment {
     }
 
     
-    private void initialResultCircle(CircleDisplay circleDisplay, String who, int i) {
+    private void initialResultCircle(CircleDisplay circleDisplay, String who, float i) {
 
     	circleDisplay.setAnimDuration(2000);
     	circleDisplay.setValueWidthPercent(55f);
     	circleDisplay.setFormatDigits(1);
     	circleDisplay.setDimAlpha(80);
     	circleDisplay.setType(who); 
-    	circleDisplay.setV_width(v_width);
+    	circleDisplay.setV_width(V_WIDTH);
     	
         
     	circleDisplay.setTouchEnabled(false);
@@ -110,8 +107,20 @@ public class ResultFragment extends Fragment {
     	circleDisplay.showValue(i, 100f, true);
 		
 	}
-
-	private View findViewById(int id) {
+    
+    /**
+     * Helper method to find view
+     */
+	public View findViewById(int id) {
         return mMainView.findViewById(id);
+    }
+	
+	/**
+	 * Post result after complete 
+	 * @param percentDad
+	 */
+    public void postResult(float percentDad) {
+        initialResultCircle(mDadCircle, "DAD", percentDad);
+        initialResultCircle(mMomCircle, "MOM", 100 - percentDad);
     }
 }
