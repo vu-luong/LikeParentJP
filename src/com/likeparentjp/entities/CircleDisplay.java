@@ -101,7 +101,7 @@ public class CircleDisplay extends View implements OnGestureListener {
     
     private Typeface typeface1, typeface2;
     
-    private int v_width = 720;
+    private int v_width = 600;
     
     
     public CircleDisplay(Context context) {
