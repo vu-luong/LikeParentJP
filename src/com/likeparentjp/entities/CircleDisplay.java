@@ -101,7 +101,7 @@ public class CircleDisplay extends View implements OnGestureListener {
     
     private Typeface typeface1, typeface2;
     
-    private int v_width = 600;
+    private int v_width = 720;
     
     
     public CircleDisplay(Context context) {
@@ -150,12 +150,12 @@ public class CircleDisplay extends View implements OnGestureListener {
 
     private void changeScale() {
 		// TODO Auto-generated method stub
-    	if (v_width <= 240) setScale(2.2f); else
-        if (v_width <= 320) setScale(2f); else
-        if (v_width <= 480) setScale(1.15f); else 
-        if (v_width < 700) setScale(1.1f); else
-        if (v_width < 1000) setScale(0.8f); else
-        setScale(0.5f);
+    	if (v_width <= 240) setScale(2.3f); else
+        if (v_width <= 320) setScale(2.1f); else
+        if (v_width <= 480) setScale(1.25f); else 
+        if (v_width < 700) setScale(1.2f); else
+        if (v_width < 1000) setScale(0.9f); else
+        setScale(0.55f);
 	}
 
 	/** boolean flag that indicates if the box has been setup */
@@ -204,7 +204,7 @@ public class CircleDisplay extends View implements OnGestureListener {
         if (v_width < 1100) temp = 1.35f; else
     	temp = 0.8f;
     	
-    	temp = temp*1.1f;
+    	temp = temp*1.2f;
 		
     	mTextPaint.setTextSize(Utils.convertDpToPixel(getResources(), 20f/temp));
     	
@@ -214,7 +214,7 @@ public class CircleDisplay extends View implements OnGestureListener {
     	mTextPaint.setTypeface(typeface2);
     	mTextPaint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
     	
-        mTextPaint.setTextSize(Utils.convertDpToPixel(getResources(), 35f/temp));
+        mTextPaint.setTextSize(Utils.convertDpToPixel(getResources(), 33f/temp));
     	
         c.drawText(mFormatValue.format(mValue * mPhase) + " " + mUnit, getWidth()/2,
                 getHeight()/2 + mTextPaint.descent(), mTextPaint);
