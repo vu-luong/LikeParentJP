@@ -127,7 +127,6 @@ public class LikeParentOps {
             if (requestCode == REQUEST_CHOOSE_PHOTO) {
                 beginCrop(data.getData());
             } else if (requestCode == REQUEST_TAKE_PHOTO) {
-                // TODO handle request take photo
                 Uri destination = Uri.fromFile(new File(mActivity.get().
                                     getExternalCacheDir(), "temporary.jpg"));
                 beginCrop(destination);
@@ -185,6 +184,21 @@ public class LikeParentOps {
         Bitmap resultBitmap = Utils.setImageView((ImageView) mainActivity.getRecentViewRequest(),
                     getTempCropFile());
         mDataBitmap[mainActivity.getRecentFlagRequest()] = resultBitmap;
+        
+    }
+    
+    /**
+     * Reset images
+     */
+    public void resetImage() {
+        // TODO reset here
+    }
+
+    /**
+     * Analyze images
+     */
+    public void analyzeImage() {
+        // TODO analyze here
         
     }
     
