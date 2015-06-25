@@ -101,7 +101,7 @@ public class CircleDisplay extends View implements OnGestureListener {
     
     private Typeface typeface1, typeface2;
     
-    private int v_width = 240;
+    private int v_width = 720;
     
     
     public CircleDisplay(Context context) {
@@ -201,8 +201,8 @@ public class CircleDisplay extends View implements OnGestureListener {
         if (v_width <= 320) temp = 2f; else
         if (v_width <= 480) temp = 1.25f; else 
         if (v_width < 700) temp =  1f; else
-        if (v_width < 1000) temp = 1.35f; else
-    	temp = 0.9f;
+        if (v_width < 1100) temp = 1.35f; else
+    	temp = 0.8f;
     	
     	temp = temp*1.1f;
 		
