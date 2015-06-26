@@ -41,7 +41,7 @@ public class MainFragment extends Fragment {
         
         
         //set 3 bitmaps to 3 views in mainFragment again
-        ((MainActivity) getActivity()).getOps().reinitializeView();
+        ((MainActivity) getActivity()).getOps().resetView();
         
         
         //set touch listener for color changing
@@ -74,9 +74,10 @@ public class MainFragment extends Fragment {
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
                     Log.i(TAG, "UPPPP");
                     mButtonContainer.setBackgroundResource(R.drawable.btn);
-                    
+                    //TODO--
                     //check: if 3 views are set, then user can touch this button
-                    if (((MainActivity) getActivity()).getOps().allViewAreSet()){
+                    if (((MainActivity) getActivity()).getOps().allViewAreSet())
+                    {
                     	
                     	((MainActivity) getActivity()).analyzeImage();
                     } else {
@@ -84,6 +85,7 @@ public class MainFragment extends Fragment {
                     			"Please set pictures for all frames", 
                     			Toast.LENGTH_SHORT).show();
                     }
+                    
                     	
                     
                     return true;

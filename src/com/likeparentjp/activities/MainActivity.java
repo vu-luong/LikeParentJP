@@ -9,7 +9,7 @@ import com.likeparentjp.R;
 import com.likeparentjp.fragments.MainFragment;
 import com.likeparentjp.fragments.ResultFragment;
 import com.likeparentjp.operations.LikeParentOps;
-import com.likeparentjp.operations.algorithm.RandomAlgorithm;
+import com.likeparentjp.operations.algorithm.CalculateAlgorithm;
 import com.likeparentjp.utils.LifecycleLoggingActivity;
 import com.likeparentjp.utils.RetainedFragmentManager;
 import com.likeparentjp.utils.Stack;
@@ -94,7 +94,7 @@ public class MainActivity extends LifecycleLoggingActivity {
             Log.d(TAG, "First time onCreate() call");
 
             //first time in, create new Operation object
-            mOps = new LikeParentOps(this, new RandomAlgorithm());
+            mOps = new LikeParentOps(this, new CalculateAlgorithm());
             //store object reference
             mRetainedFragmentManager.put(OPERATION_TAG, mOps);
         } else {

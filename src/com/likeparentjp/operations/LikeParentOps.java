@@ -90,10 +90,10 @@ public class LikeParentOps {
 	 */
 	public void onConfigurationChange(Activity mActivity) {
 		this.mActivity = new WeakReference<Activity>(mActivity);
-		reinitializeView();
+//		resetView();
 	}
 	
-	public void reinitializeView() {
+	public void resetView() {
 		ImageButton momImg = (ImageButton) mActivity.get().findViewById(
 				R.id.bt_mom);
 		momImg.setImageBitmap(mDataBitmap[FLAG_MOM]);
@@ -106,6 +106,20 @@ public class LikeParentOps {
 				R.id.bt_child);
 		childImg.setImageBitmap(mDataBitmap[FLAG_CHILD]);
 	}
+	
+//	public void reinitializeView() {
+//		ImageButton momImg = (ImageButton) mActivity.get().findViewById(
+//				R.id.bt_mom);
+//		momImg.setImageBitmap(mDataBitmap[FLAG_MOM]);
+//
+//		ImageButton dadImg = (ImageButton) mActivity.get().findViewById(
+//				R.id.bt_dad);
+//		dadImg.setImageBitmap(mDataBitmap[FLAG_DAD]);
+//
+//		ImageButton childImg = (ImageButton) mActivity.get().findViewById(
+//				R.id.bt_child);
+//		childImg.setImageBitmap(mDataBitmap[FLAG_CHILD]);
+//	}
 
 	/**
 	 * Method to choose and set image
@@ -256,7 +270,7 @@ public class LikeParentOps {
 		}
 
 		// set 3 bitmaps from mainFragment to 3 views in resultFragment
-		reinitializeView();
+		resetView();
 	}
 
 	

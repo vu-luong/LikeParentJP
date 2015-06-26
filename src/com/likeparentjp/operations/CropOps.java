@@ -162,9 +162,20 @@ public class CropOps {
             if (mActivity.get() != null) {
                 mActivity.get().dismissProgressDialog();
                 //toast the number of faces detected
-                Toast.makeText(mActivity.get(),
-                        "Number of faces found : " + FaceDetection.facesFound,
-                        Toast.LENGTH_SHORT).show();
+                if (FaceDetection.facesFound > 0)
+	                Toast.makeText(mActivity.get(),
+	                        "Number of faces found : " + FaceDetection.facesFound,
+	                        Toast.LENGTH_SHORT).show();
+                else {
+                	Toast.makeText(mActivity.get(),
+	                        "No face detected, please try again with another picture",
+	                        Toast.LENGTH_LONG).show();
+                	
+//                	mActivity.get().finish();
+                }
+                	
+                
+                
                 mActivity.get().setCropImageBitmap(result);
             }
         }

@@ -105,18 +105,20 @@ public class ResultFragment extends Fragment {
     
     private void initialResultCircle(CircleDisplay circleDisplay, String who, float i) {
 
+    	
+    	circleDisplay.setV_width(V_WIDTH);
     	circleDisplay.setAnimDuration(2000);
     	circleDisplay.setValueWidthPercent(55f);
     	circleDisplay.setFormatDigits(1);
     	circleDisplay.setDimAlpha(80);
-    	circleDisplay.setType(who); 
-    	circleDisplay.setV_width(V_WIDTH);
+    	circleDisplay.setType(V_WIDTH + ""); 
     	
         
     	circleDisplay.setTouchEnabled(false);
     	circleDisplay.setUnit("%");
     	circleDisplay.setStepSize(0.5f);
     	circleDisplay.showValue(i, 100f, true);
+    	
 		
 	}
     

@@ -58,7 +58,7 @@ public class Utils {
         Bitmap scaledBitmap = ScalingUtilities.
                 createScaledBitmap(unscaledBitmap, targetW, targetH, ScalingLogic.FIT);
         //recyle to improve performance
-//        unscaledBitmap.recycle();
+        unscaledBitmap.recycle();
         
         //set image bitmap
         imageView.setImageBitmap(scaledBitmap);

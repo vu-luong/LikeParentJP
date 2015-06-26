@@ -101,7 +101,7 @@ public class CircleDisplay extends View implements OnGestureListener {
     
     private Typeface typeface1, typeface2;
     
-    private int v_width = 720;
+    private int v_width = 0;
     
     
     public CircleDisplay(Context context) {
@@ -120,7 +120,7 @@ public class CircleDisplay extends View implements OnGestureListener {
     }
 
     private void init() {
-    	changeScale();
+//    	changeScale();
     	
     	typeface1 = Typeface.defaultFromStyle(Typeface.BOLD);
     	typeface2 = Typeface.defaultFromStyle(Typeface.BOLD);
@@ -165,7 +165,7 @@ public class CircleDisplay extends View implements OnGestureListener {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (!mBoxSetup) {
+        if (!mBoxSetup && v_width != 0) {
             mBoxSetup = true;
             setupBox();
         }
@@ -252,6 +252,9 @@ public class CircleDisplay extends View implements OnGestureListener {
         float r = getRadius();
 
         c.drawCircle(getWidth() / 2, getHeight()/2, r/mScale, mArcPaint);
+        
+        Log.i(LOG_TAG, "mScale whole " + mScale);
+        
     }
 
     /**
@@ -265,6 +268,7 @@ public class CircleDisplay extends View implements OnGestureListener {
 //                * (100f - mValueWidthPercent), mInnerCirclePaint);
     	
     	 c.drawCircle(getWidth() / 2, getHeight()/2, (getRadius() - 8)/mScale, mInnerCirclePaint);
+    	 Log.i(LOG_TAG, "mScale inner " + mScale);
     }
 
     /**
@@ -293,6 +297,8 @@ public class CircleDisplay extends View implements OnGestureListener {
         float height = getHeight();
 
         float diameter = getDiameter()/mScale;
+        
+        Log.i(LOG_TAG, "mScale setup box = " + mScale);
 
         mCircleBox = new RectF(width / 2 - diameter / 2, height / 2 - diameter / 2, width / 2
                 + diameter / 2, height / 2 + diameter / 2);
@@ -453,8 +459,8 @@ public class CircleDisplay extends View implements OnGestureListener {
     
     public void setV_width(int w)	{
     	v_width = w;
-    	
     	changeScale();
+    	
     }
     
 
