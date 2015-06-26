@@ -9,10 +9,13 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.likeparentjp.R;
+import com.likeparentjp.activities.MainActivity;
 import com.likeparentjp.entities.CircleDisplay;
+import com.likeparentjp.operations.LikeParentOps;
 
 public class ResultFragment extends Fragment {
 	
@@ -52,6 +55,10 @@ public class ResultFragment extends Fragment {
         mDadCircle = (CircleDisplay) findViewById(R.id.circleDisplayDad);
         mMomCircle = (CircleDisplay)findViewById(R.id.circleDisplayMom);
         
+        //calculate the result
+        ((MainActivity) getActivity()).getOps().analyzeImage();
+        
+        //set the width of the screen for V_WIDTH
     	V_WIDTH = getActivity().getWindowManager().getDefaultDisplay().getWidth();
         
  
@@ -83,6 +90,9 @@ public class ResultFragment extends Fragment {
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
                     mButtonContainer.setBackgroundResource(R.drawable.btn);
+                    
+                    ((MainActivity) getActivity()).retake();
+                    
                     return true;
                 }
                 return false;
@@ -123,4 +133,5 @@ public class ResultFragment extends Fragment {
         initialResultCircle(mDadCircle, "DAD", percentDad);
         initialResultCircle(mMomCircle, "MOM", 100 - percentDad);
     }
+
 }

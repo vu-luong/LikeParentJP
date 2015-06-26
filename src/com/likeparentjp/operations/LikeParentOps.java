@@ -85,7 +85,7 @@ public class LikeParentOps {
         reinitializeView();
     }
     
-    private void reinitializeView() {
+    public void reinitializeView() {
         ImageButton momImg = (ImageButton) mActivity.get().findViewById(R.id.bt_mom);
         momImg.setImageBitmap(mDataBitmap[FLAG_MOM]);
         
@@ -200,6 +200,8 @@ public class LikeParentOps {
      */
     public void resetImage() {
         // TODO reset here
+    	
+    	
     }
 
     /**
@@ -228,10 +230,21 @@ public class LikeParentOps {
         if (mDataBitmap[1] == null && mDataBitmap[2] == null && mDataBitmap[0] == null) {
             Log.i(TAG, "null");
         }
-        //TODO - reset the bitmap
-        reinitializeView(); // dang le chi can goi cai ni la duoc ma rang khong duoc :v
+        
+        //set 3 bitmaps from mainFragment to 3 views in resultFragment 
+        reinitializeView(); 
     }
     
     
+    public boolean allViewAreSet(){
+    	return mDataBitmap[1] != null && mDataBitmap[2] != null && mDataBitmap[0] != null;
+    }
+    
+    /**
+     * use when recreate mainFragment
+     */
+    public void setDataBitmapToNull(){
+    	mDataBitmap = new Bitmap[3];
+    }
     
 }

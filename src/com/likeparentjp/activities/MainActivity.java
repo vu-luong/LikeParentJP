@@ -79,6 +79,14 @@ public class MainActivity extends LifecycleLoggingActivity {
     	getFragmentManager().beginTransaction()
         .replace(R.id.fragment_container, mResultFragment)
         .commit();
+    	
+    }
+    
+    public void switchToMainFragment() {
+    	Log.i(TAG, "switching to result fragment");
+     	getFragmentManager().beginTransaction()
+     	.replace(R.id.fragment_container, mMainFragment)
+        .commit();
     }
     
     private void handleConfigurationChange() {
@@ -153,14 +161,25 @@ public class MainActivity extends LifecycleLoggingActivity {
      * Analyze image, delegate to mOps
      */
     public void analyzeImage() {
+    	//switch to the resultFragment then calculate and show result
         switchToResultFragment();
-        mOps.analyzeImage();
     }
+    
+    /**
+     * Try again: switch to mainFragment and set all view to null
+     */
+    
+    public void retake() {
+    	switchToMainFragment();
+    }
+    
     
     public void postResult(float percentDad) {
         mResultFragment.postResult(percentDad);
     }
 
-
+    public LikeParentOps getOps() {
+    	return mOps;
+    }
         
 }
