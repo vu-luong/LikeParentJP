@@ -173,6 +173,10 @@ public class MainActivity extends LifecycleLoggingActivity {
     	switchToMainFragment();
     }
     
+    public void share() {
+		mOps.share();
+	}
+    
     
     public void postResult(float percentDad) {
         mResultFragment.postResult(percentDad);
@@ -181,5 +185,7 @@ public class MainActivity extends LifecycleLoggingActivity {
     public LikeParentOps getOps() {
     	return mOps;
     }
+
+	
         
 }

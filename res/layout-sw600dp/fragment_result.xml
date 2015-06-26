@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/tile_bg"
+    android:id="@+id/container"
     tools:context=".PlaylistActivity" >
 
     <LinearLayout
@@ -192,6 +193,7 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:text="@string/share_button"
                 android:textSize="16sp" />
 
             <Button
@@ -200,6 +202,7 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:text="@string/retake_button"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>

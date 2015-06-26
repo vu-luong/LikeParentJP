@@ -188,6 +188,7 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:text="@string/share_button"
                 android:textSize="16sp" />
 
             <Button
@@ -196,6 +197,7 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:text="@string/retake_button"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>

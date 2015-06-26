@@ -73,6 +73,8 @@ public class ResultFragment extends Fragment {
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
                     mButtonContainer.setBackgroundResource(R.drawable.btn);
+                    ((MainActivity) getActivity()).share();
+                    
                     return true;
                 }
                 return false;

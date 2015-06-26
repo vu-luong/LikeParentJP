@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/tile_bg"
+    android:id="@+id/container"
     tools:context=".PlaylistActivity" >
 
     <LinearLayout
@@ -43,7 +44,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="5dp"
-                        android:background="@drawable/pframe">
+                        android:background="@drawable/pframe" >
                     </ImageButton>
 
                     <ImageButton
@@ -74,7 +75,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="5dp"
-                        android:background="@drawable/pframe">
+                        android:background="@drawable/pframe" >
                     </ImageButton>
 
                     <ImageButton
@@ -108,7 +109,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_margin="5dp"
-                    android:background="@drawable/pframe">
+                    android:background="@drawable/pframe" >
                 </ImageButton>
 
                 <ImageButton
@@ -119,38 +120,36 @@
                     android:background="@drawable/outframe"
                     android:clickable="false" />
             </RelativeLayout>
-            
-            
-            <RelativeLayout    
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp">
+                android:layout_marginRight="6dp"
+                android:orientation="horizontal" >
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_toLeftOf="@+id/t2">
+                    android:layout_toLeftOf="@+id/t2" >
 
                     <com.likeparentjp.entities.CircleDisplay
                         android:id="@+id/circleDisplayDad"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
-					
-                <RelativeLayout 
+
+                <RelativeLayout
                     android:id="@id/t2"
                     android:layout_width="132dp"
                     android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true">
-                    
+                    android:layout_centerHorizontal="true" >
                 </RelativeLayout>
-                
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_toRightOf="@id/t2">
+                    android:layout_toRightOf="@id/t2" >
 
                     <com.likeparentjp.entities.CircleDisplay
                         android:id="@+id/circleDisplayMom"
@@ -158,15 +157,9 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true" />
-
                 </RelativeLayout>
             </RelativeLayout>
-            
         </RelativeLayout>
-        
-        
-        
-        
     </LinearLayout>
 
     <LinearLayout
@@ -193,6 +186,7 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:text="@string/share_button"
                 android:textSize="16sp" />
 
             <Button
@@ -201,6 +195,7 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:text="@string/retake_button"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
