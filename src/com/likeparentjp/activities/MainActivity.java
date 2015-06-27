@@ -32,9 +32,17 @@ public class MainActivity extends LifecycleLoggingActivity {
     private LikeParentOps mOps;
     
     /**
-     * TAG of LikeParentOps object state
+     * TAG to find LikeParentOps object state
      */
     private String OPERATION_TAG = "Like_parent";
+    /**
+     * TAG to find MainFragment;
+     */
+    private String MAIN_FRAGMENT_TAG = "main fragment";
+    /**
+     * TAG to find ResultFragment;
+     */
+    private String RESULT_FRAGMENT_TAG = "main fragmenasggt";
 	
     /**
      * Initial main fragment
@@ -58,35 +66,28 @@ public class MainActivity extends LifecycleLoggingActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //set initial fragment
-        mMainFragment = new MainFragment();
-        mResultFragment = new ResultFragment();
-        
-        if (findViewById(R.id.fragment_container) != null) {
-            if (savedInstanceState == null) {
-                getFragmentManager().beginTransaction()
-                                    .add(R.id.fragment_container, mMainFragment)
-                                    .commit();
-            }
-        }
-        
         //handle configuration change
         handleConfigurationChange();
     }
     
     public void switchToResultFragment(){
+        if (mResultFragment == null) {
+            mResultFragment = new ResultFragment();
+        }
         Log.i(TAG, "switching to result fragment");
     	getFragmentManager().beginTransaction()
-        .replace(R.id.fragment_container, mResultFragment)
-        .commit();
-    	
+                            .replace(R.id.fragment_container, mResultFragment,
+                                    RESULT_FRAGMENT_TAG).commit();
     }
     
     public void switchToMainFragment() {
+        if (mMainFragment == null) {
+            mMainFragment = new MainFragment();
+        }
     	Log.i(TAG, "switching to result fragment");
      	getFragmentManager().beginTransaction()
-     	.replace(R.id.fragment_container, mMainFragment)
-        .commit();
+     	                    .replace(R.id.fragment_container, mMainFragment, 
+     	                            MAIN_FRAGMENT_TAG).commit();
     }
     
     private void handleConfigurationChange() {
@@ -94,15 +95,30 @@ public class MainActivity extends LifecycleLoggingActivity {
             Log.d(TAG, "First time onCreate() call");
 
             //first time in, create new Operation object
-            mOps = new LikeParentOps(this, new CalculateAlgorithm());
+            mOps = new LikeParentOps(this);
             //store object reference
             mRetainedFragmentManager.put(OPERATION_TAG, mOps);
+            
+            //set initial fragment
+            mMainFragment = new MainFragment();
+            mResultFragment = new ResultFragment();
+            
+            if (findViewById(R.id.fragment_container) != null) {
+                getFragmentManager().beginTransaction()
+                                    .add(R.id.fragment_container, mMainFragment, MAIN_FRAGMENT_TAG)
+                                    .commit();
+            }
+
         } else {
             Log.d(TAG, "Not the first time");
 
             //reobtain object
             mOps = mRetainedFragmentManager.get(OPERATION_TAG);
             mOps.onConfigurationChange(this);
+            mMainFragment = (MainFragment) getFragmentManager()
+                    .findFragmentByTag(MAIN_FRAGMENT_TAG);
+            mResultFragment = (ResultFragment) getFragmentManager()
+                    .findFragmentByTag(RESULT_FRAGMENT_TAG);
         }
         
     }
@@ -187,5 +203,5 @@ public class MainActivity extends LifecycleLoggingActivity {
     }
 
 	
-        
+         
 }

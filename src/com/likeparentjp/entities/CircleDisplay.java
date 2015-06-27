@@ -253,8 +253,6 @@ public class CircleDisplay extends View implements OnGestureListener {
 
         c.drawCircle(getWidth() / 2, getHeight()/2, r/mScale, mArcPaint);
         
-        Log.i(LOG_TAG, "mScale whole " + mScale);
-        
     }
 
     /**
@@ -268,7 +266,6 @@ public class CircleDisplay extends View implements OnGestureListener {
 //                * (100f - mValueWidthPercent), mInnerCirclePaint);
     	
     	 c.drawCircle(getWidth() / 2, getHeight()/2, (getRadius() - 8)/mScale, mInnerCirclePaint);
-    	 Log.i(LOG_TAG, "mScale inner " + mScale);
     }
 
     /**

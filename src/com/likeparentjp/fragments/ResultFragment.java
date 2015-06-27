@@ -49,19 +49,18 @@ public class ResultFragment extends Fragment {
     
     
     private void initializeView() {
+        Log.i(TAG, "initializeView");
         mButtonContainer = (LinearLayout) findViewById(R.id.btn_container);
         mShareButton = (Button) findViewById(R.id.btn_share);
         mRetakeButton = (Button) findViewById(R.id.btn_retake);
         mDadCircle = (CircleDisplay) findViewById(R.id.circleDisplayDad);
         mMomCircle = (CircleDisplay)findViewById(R.id.circleDisplayMom);
         
-        //calculate the result
-        ((MainActivity) getActivity()).getOps().analyzeImage();
-        
         //set the width of the screen for V_WIDTH
-    	V_WIDTH = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+        V_WIDTH = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+        //calculate the result
+        ((MainActivity) getActivity()).getOps().analyzeImage();;
         
- 
         //set touch listener for color changing
         mShareButton.setOnTouchListener(new OnTouchListener() {
 
@@ -105,7 +104,6 @@ public class ResultFragment extends Fragment {
     
     private void initialResultCircle(CircleDisplay circleDisplay, String who, float i) {
 
-    	
     	circleDisplay.setV_width(V_WIDTH);
     	circleDisplay.setAnimDuration(2000);
     	circleDisplay.setValueWidthPercent(55f);

@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import com.likeparentjp.R;
 import com.likeparentjp.activities.CropActivity;
 import com.likeparentjp.activities.MainActivity;
+import com.likeparentjp.operations.algorithm.CalculateAlgorithm;
 import com.likeparentjp.operations.algorithm.LikeParentAlgorithm;
 import com.likeparentjp.utils.Utils;
 
@@ -37,6 +38,10 @@ import com.likeparentjp.utils.Utils;
  *
  */
 public class LikeParentOps {
+    /**
+     * Algorithm use in this application, use Strategy pattern
+     */
+    private LikeParentAlgorithm mAlgorithm = new CalculateAlgorithm();
 	/**
 	 * Helper flags
 	 */
@@ -68,18 +73,13 @@ public class LikeParentOps {
 	 * Array Bitmap to analyze
 	 */
 	private Bitmap[] mDataBitmap;
-	/**
-	 * Instance of Like parent algorithm, use Strategy pattern
-	 */
-	private LikeParentAlgorithm mAlgorithm;
-
+	
 	/**
 	 * Construct new operations objects
 	 */
-	public LikeParentOps(Activity mActivity, LikeParentAlgorithm algorithm) {
+	public LikeParentOps(Activity mActivity) {
 		this.mActivity = new WeakReference<Activity>(mActivity);
 		this.mDataBitmap = new Bitmap[3];
-		this.mAlgorithm = algorithm;
 	}
 
 	/**
@@ -263,11 +263,6 @@ public class LikeParentOps {
 				((MainActivity) mActivity.get()).postResult(result);
 			}
 		}.execute(mDataBitmap);
-
-		if (mDataBitmap[1] == null && mDataBitmap[2] == null
-				&& mDataBitmap[0] == null) {
-			Log.i(TAG, "null");
-		}
 
 		// set 3 bitmaps from mainFragment to 3 views in resultFragment
 		resetView();
