@@ -2,11 +2,14 @@ package com.likeparentjp.operations;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -48,6 +51,10 @@ public class CropOps {
      * @param cropActivity
      */
     private DetectFaceTask mDetectFaceTask;
+    /**
+     * Max size of both dimension of image
+     */
+    private int IMAGE_MAX_SIZE = 1024;
 
     
     
@@ -130,14 +137,37 @@ public class CropOps {
         Uri imageUri = mActivity.get()
                                 .getIntent()
                                 .getData();
+        ContentResolver mContentResolver = mActivity.get().getContentResolver();
+        InputStream in = null;
         Bitmap bitmap = null;
         try {
-            // get a bitmap image from uri
-            bitmap = MediaStore.Images.Media.getBitmap(
-                            mActivity.get().getContentResolver(), imageUri);
-        } catch (IOException e) {
+            in = mContentResolver.openInputStream(imageUri);
+
+            //Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+
+            BitmapFactory.decodeStream(in, null, o);
+            in.close();
+
+            int scale = 1;
+            if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE ) {
+                scale = (int) Math.pow(2, 
+                        (int) Math.round(Math.log(IMAGE_MAX_SIZE 
+                                / (double) Math.max(o.outHeight, o.outWidth)) 
+                                / Math.log(0.5)));
+            }
+
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            in = mContentResolver.openInputStream(imageUri);
+            bitmap = BitmapFactory.decodeStream(in, null, o2);
+            in.close();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
 
         if (bitmap != null) {
             mActivity.get().setCropImageBitmap(bitmap);
