@@ -2,13 +2,14 @@ package com.likeparentjp.utils;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
 /**
  * This abstract class extends the Activity class and overrides lifecycle
  * callbacks for logging various lifecycle events.
  */
-public abstract class LifecycleLoggingActivity extends Activity {
+public abstract class LifecycleLoggingActivity extends ActionBarActivity {
 	/**
 	 * Debugging tag used by the Android logger.
 	 */

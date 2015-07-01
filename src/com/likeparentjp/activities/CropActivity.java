@@ -10,6 +10,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -26,7 +29,15 @@ import com.likeparentjp.utils.RetainedFragmentManager;
  * @author applehouse
  */
 public class CropActivity extends LifecycleLoggingActivity {
-    public static final int REQUEST_CROP = 234221;
+    public static final int REQUEST_CROP = 4;
+    /**
+     * Indication result code to tell main activity to retake photo
+     */
+    public static final int RESULT_RETAKE = 25;
+    /**
+     * Indication result code to tell main activity to reselect from gallery
+     */
+    public static final int RESULT_RESELECT = 26;
     /**
      * Key to find destination uri to save cropped image
      */
@@ -70,6 +81,7 @@ public class CropActivity extends LifecycleLoggingActivity {
         handleConfigurationChange();
 
     }
+    
 
     private void handleConfigurationChange() {
         if (mRetainedFragmentManager.firstTimeIn()) {
@@ -138,11 +150,26 @@ public class CropActivity extends LifecycleLoggingActivity {
                 return false;
             }
         });
-        
-        
-
     }
 
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.crop, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_reselect) {
+            mOps.reselect();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+    
     private void setupCropImage() {
         mOps.setUpCropImage();
     }

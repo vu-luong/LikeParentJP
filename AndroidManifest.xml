@@ -31,8 +31,7 @@
         </activity>
         <activity
             android:name="com.likeparentjp.activities.CropActivity"
-            android:label="@string/title_activity_crop" 
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:label="@string/title_activity_crop">
         </activity>
     </application>
 
