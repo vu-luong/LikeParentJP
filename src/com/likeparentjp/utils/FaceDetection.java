@@ -30,7 +30,7 @@ public class FaceDetection {
 			Paint drawPaint = new Paint();
 
 			ditherPaint.setDither(true);
-			drawPaint.setColor(Color.RED);
+			drawPaint.setColor(Color.WHITE);
 			drawPaint.setStyle(Paint.Style.STROKE);
 			drawPaint.setStrokeWidth(2);
 
@@ -50,16 +50,22 @@ public class FaceDetection {
 					faces[index].getMidPoint(midPoint);
 					eyeDistance = faces[index].eyesDistance();
 					confidence = faces[index].confidence();
+					
 
 					Log.i("FaceDetector", "Confidence: " + confidence
 							+ ", Eye distance: " + eyeDistance
 							+ ", Mid Point: (" + midPoint.x + ", " + midPoint.y
 							+ ")");
-
+						
+					Log.i("FaceDetector", "pose Y" + faces[index].pose(Face.EULER_Y));
+					
+					eyeDistance = eyeDistance * 1.4f;
+					
 					canvas.drawRect((int) midPoint.x - eyeDistance,
-							(int) midPoint.y - eyeDistance, (int) midPoint.x
+							(int) midPoint.y - eyeDistance + eyeDistance/4, 
+							(int) midPoint.x
 									+ eyeDistance, (int) midPoint.y
-									+ eyeDistance, drawPaint);
+									+ eyeDistance + eyeDistance/4, drawPaint);
 				}
 			}
 			

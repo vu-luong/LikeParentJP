@@ -50,7 +50,7 @@ public class CropOps {
     /**
      * Max size of both dimension of image
      */
-    private int IMAGE_MAX_SIZE = 1024;
+    private int IMAGE_MAX_SIZE = 768;
 
     
     /**
