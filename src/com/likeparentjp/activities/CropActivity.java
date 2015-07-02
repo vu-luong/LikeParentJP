@@ -1,11 +1,9 @@
 package com.likeparentjp.activities;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,6 +64,9 @@ public class CropActivity extends LifecycleLoggingActivity {
 	private LinearLayout mContainerButton;
 	private Button mCropButton;
 	private Button mRotateButton;
+	/**
+	 * TAG to get reference of the operation object
+	 */
 	private String OPERATION_TAG = "crops_tag";
 
 	@Override
@@ -81,7 +82,10 @@ public class CropActivity extends LifecycleLoggingActivity {
 
 		// handle configuration changes
 		handleConfigurationChange();
-
+		
+		// setup crop image
+        setupCropImage();
+		
 	}
 
 	private void handleConfigurationChange() {
@@ -92,9 +96,7 @@ public class CropActivity extends LifecycleLoggingActivity {
 			mOps = new CropOps(this);
 			// store object reference
 			mRetainedFragmentManager.put(OPERATION_TAG, mOps);
-			// setup crop image
-			setupCropImage();
-
+			
 		} else {
 			Log.d(TAG, "Not the first time");
 
@@ -102,8 +104,6 @@ public class CropActivity extends LifecycleLoggingActivity {
 			mOps = mRetainedFragmentManager.get(OPERATION_TAG);
 			mOps.onConfigurationChange(this);
 
-			// re-set the display bitmap Uri imageUri = getIntent().getData();
-			setCropImageBitmap(mOps.getDisplayBitmap());
 		}
 	}
 
@@ -205,7 +205,8 @@ public class CropActivity extends LifecycleLoggingActivity {
 	 */
 	public void rotateCropImage(View v) {
 		mCropImageView.rotateImage(90);
-		mOps.rotateCropImage(v);
+		mOps.setDisplayBitmap(mCropImageView.getBitmap());
+		mOps.rotateCropImage();
 	}
 
 	/**
@@ -225,6 +226,7 @@ public class CropActivity extends LifecycleLoggingActivity {
 	}
 
 	public void showProgressDialog(String title, String Message) {
+	    Log.i(TAG, "Show progress dialog");
 		mProgressDialog = new ProgressDialog(this);
 		mProgressDialog.setTitle(title);
 		mProgressDialog.setMessage(Message);
@@ -234,9 +236,12 @@ public class CropActivity extends LifecycleLoggingActivity {
 	}
 
 	public void dismissProgressDialog() {
-		if (mProgressDialog != null)
+	    
+		if (mProgressDialog != null) {
+		    Log.i(TAG, "Dismiss");
 			if (mProgressDialog.isShowing())
 				mProgressDialog.dismiss();
+		}
 	}
 
 	@Override

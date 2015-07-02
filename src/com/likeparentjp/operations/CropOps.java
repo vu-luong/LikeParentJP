@@ -37,22 +37,14 @@ public class CropOps {
      * Weak reference of crop activity, use to enable garbage collection
      */
     private WeakReference<CropActivity> mActivity;
-    /**
-     * Stored Bitmap
-     */
-    private Bitmap mStoredBitmap;
+
     /**
      * Display bitmap
      */
     private Bitmap mDisplayBitmap;
     
     /**
-     * Count the number of rotate operations
-     */
-    private int mRotateCount = 0;
-    
-    /**
-     * @param cropActivity
+     * Detect face task
      */
     private DetectFaceTask mDetectFaceTask;
     /**
@@ -61,13 +53,18 @@ public class CropOps {
     private int IMAGE_MAX_SIZE = 1024;
 
     
-    
+    /**
+     * Construct an Crop Operation of CropActivity
+     * @param cropActivity
+     */
     public CropOps(CropActivity cropActivity) {
         this.mActivity = new WeakReference<CropActivity>(cropActivity);
-        mDetectFaceTask = new DetectFaceTask(mActivity.get());
     }
 
-
+    /**
+     * OnConfiguration change, get the new weak reference of new activity instance
+     * @param cropActivity
+     */
     public void onConfigurationChange(CropActivity cropActivity) {
         this.mActivity = new WeakReference<CropActivity>(cropActivity);
     }
@@ -79,13 +76,13 @@ public class CropOps {
      */
     public void cropAndSaveImage(View v) {
         //rotate the original bitmap
-        if (mRotateCount % 4 != 0) {
-            mStoredBitmap = Utils.rotateBitmap(mStoredBitmap, mRotateCount);
-        }
+//        if (mRotateCount % 4 != 0) {
+//            mStoredBitmap = Utils.rotateBitmap(mStoredBitmap, mRotateCount);
+//        }
         //get cropped bitmap
         CropImageView mCiv = (CropImageView) mActivity.get()
                                 .findViewById(R.id.CropImageView);
-        mCiv.setBitmap(mStoredBitmap);
+//        mCiv.setBitmap(mStoredBitmap);
          
         Bitmap croppedBitmap = mCiv.getCroppedImage();
         //get uri
@@ -101,9 +98,6 @@ public class CropOps {
             e.printStackTrace();
         }
         
-        //cancel the face detect asynctask if it is still running
-        mDetectFaceTask.cancel(true);
-        
         //finish activity, return result
         mActivity.get().setResult(
                 Activity.RESULT_OK);
@@ -111,9 +105,12 @@ public class CropOps {
     }
 
 
-    public void rotateCropImage(View v) {
+    public void rotateCropImage() {
         Log.i(TAG, "rotate crop image");
-        mRotateCount++;
+        if (FaceDetection.facesFound == 0) {
+            mDetectFaceTask = new DetectFaceTask(mActivity.get());
+            mDetectFaceTask.execute(mDisplayBitmap);
+        }
     }
 
     /**
@@ -137,7 +134,7 @@ public class CropOps {
      * @param mStoredBitmap
      */
     public void setUpCropImage() {
-     // get image uri
+        // get image uri
         Uri imageUri = mActivity.get()
                                 .getIntent()
                                 .getData();
@@ -175,14 +172,16 @@ public class CropOps {
 
         if (bitmap != null) {
             mActivity.get().setCropImageBitmap(bitmap);
-            this.mStoredBitmap = bitmap;
+            mDetectFaceTask = new DetectFaceTask(mActivity.get());
             mDetectFaceTask.execute(bitmap);
         }
     }
 
-    private class DetectFaceTask extends AsyncTask<Bitmap, Void, Bitmap> {
+    private static class DetectFaceTask extends AsyncTask<Bitmap, Void, Bitmap> {
+        private WeakReference<CropActivity> mActivity;
         
         public DetectFaceTask(CropActivity activity) {
+            this.mActivity = new WeakReference<CropActivity>(activity);
             mActivity.get().showProgressDialog("Detecting Faces...", "Please wait");
         }
 
@@ -205,17 +204,18 @@ public class CropOps {
 	                        "No face detected, please try again with another picture",
 	                        Toast.LENGTH_LONG).show();
                 	
-//                	mActivity.get().finish();
                 }
                 	
-                
-                
                 mActivity.get().setCropImageBitmap(result);
             }
         }
 
     }
 
+    
+    /**
+     * Reselect the cropping image 
+     */
     public void reselect() {
         AlertDialog.Builder builder = new Builder(mActivity.get());
         
