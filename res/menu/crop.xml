@@ -3,7 +3,6 @@
 
     <item android:id="@+id/action_reselect"
           android:title="@string/reselect"
-          android:icon="@drawable/ic_launcher"
           android:showAsAction="ifRoom" />
     
 </menu>
