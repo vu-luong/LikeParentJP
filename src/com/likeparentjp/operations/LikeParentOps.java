@@ -253,8 +253,6 @@ public class LikeParentOps {
 			}
 		}.execute(mDataBitmap);
 
-		// set 3 bitmaps from mainFragment to 3 views in resultFragment
-		resetView();
 	}
 
 	

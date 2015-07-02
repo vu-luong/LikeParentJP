@@ -75,7 +75,6 @@ public class MainFragment extends Fragment {
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
                     Log.i(TAG, "UPPPP");
                     mButtonContainer.setBackgroundResource(R.drawable.btn);
-                    //TODO--
                     //check: if 3 views are set, then user can touch this button
                     if (getOps().allViewAreSet()) {
                     	getMainActivity().analyzeImage();
