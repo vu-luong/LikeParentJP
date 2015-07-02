@@ -10,5 +10,6 @@
 	<string name="analyze_button">analyze</string>
 	<string name="retake_button">retake</string>
 	<string name="share_button">share</string>
+	<string name="reselect">Re-select</string>
     
 </resources>

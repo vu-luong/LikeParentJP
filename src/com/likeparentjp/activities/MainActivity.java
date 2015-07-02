@@ -9,7 +9,6 @@ import com.likeparentjp.R;
 import com.likeparentjp.fragments.MainFragment;
 import com.likeparentjp.fragments.ResultFragment;
 import com.likeparentjp.operations.LikeParentOps;
-import com.likeparentjp.operations.algorithm.CalculateAlgorithm;
 import com.likeparentjp.utils.LifecycleLoggingActivity;
 import com.likeparentjp.utils.RetainedFragmentManager;
 import com.likeparentjp.utils.Stack;

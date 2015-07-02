@@ -51,8 +51,8 @@ public class LikeParentOps {
 	/**
 	 * Request codes to start activities
 	 */
-	private final int REQUEST_CHOOSE_PHOTO = 2312;
-	private final int REQUEST_TAKE_PHOTO = 214;
+	private final int REQUEST_CHOOSE_PHOTO = 12;
+	private final int REQUEST_TAKE_PHOTO = 21;
 	/**
 	 * String use for debugging
 	 */
@@ -107,20 +107,6 @@ public class LikeParentOps {
 		childImg.setImageBitmap(mDataBitmap[FLAG_CHILD]);
 	}
 	
-//	public void reinitializeView() {
-//		ImageButton momImg = (ImageButton) mActivity.get().findViewById(
-//				R.id.bt_mom);
-//		momImg.setImageBitmap(mDataBitmap[FLAG_MOM]);
-//
-//		ImageButton dadImg = (ImageButton) mActivity.get().findViewById(
-//				R.id.bt_dad);
-//		dadImg.setImageBitmap(mDataBitmap[FLAG_DAD]);
-//
-//		ImageButton childImg = (ImageButton) mActivity.get().findViewById(
-//				R.id.bt_child);
-//		childImg.setImageBitmap(mDataBitmap[FLAG_CHILD]);
-//	}
-
 	/**
 	 * Method to choose and set image
 	 */
@@ -165,9 +151,12 @@ public class LikeParentOps {
 			} else if (requestCode == CropActivity.REQUEST_CROP) {
 				handleCrop(data);
 			}
+		} else if (resultCode == CropActivity.RESULT_RESELECT){
+		    handleChooseFromGallery();
+		} else if (resultCode == CropActivity.RESULT_RETAKE) {
+		    handleTakePhoto();
 		} else {
-			// something went wrong
-
+		    
 		}
 	}
 

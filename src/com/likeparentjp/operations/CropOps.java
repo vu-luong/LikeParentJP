@@ -7,7 +7,11 @@ import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -209,6 +213,33 @@ public class CropOps {
                 mActivity.get().setCropImageBitmap(result);
             }
         }
+
+    }
+
+    public void reselect() {
+        AlertDialog.Builder builder = new Builder(mActivity.get());
+        
+        builder.setItems(new String[] {"Retake photo", "Reselect photo"},
+                new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                        case 0: // Take photo
+                            mActivity.get().setResult(CropActivity.RESULT_RETAKE);
+                            mActivity.get().finish();
+                            break;
+                        case 1: // Choose from gallery
+                            mActivity.get().setResult(CropActivity.RESULT_RESELECT);
+                            mActivity.get().finish();
+                            break;
+                        default:
+                            // dismiss the dialog
+                            dialog.dismiss();
+                            break;
+                        }
+
+                    }
+                }).show();
 
     }
 
