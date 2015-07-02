@@ -252,7 +252,9 @@ public class LikeParentOps {
 				((MainActivity) mActivity.get()).postResult(result);
 			}
 		}.execute(mDataBitmap);
-
+		
+		// set 3 bitmaps from mainFragment to 3 views in resultFragment
+		resetView();
 	}
 
 	
