@@ -1,8 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
 
-    <item android:id="@+id/action_reselect"
-          android:title="@string/reselect"
-          android:showAsAction="ifRoom" />
-    
+    <item
+        android:id="@+id/action_reselect"
+        android:orderInCategory="100"
+        android:title="@string/reselect"
+        app:showAsAction="ifRoom"/>
+
 </menu>

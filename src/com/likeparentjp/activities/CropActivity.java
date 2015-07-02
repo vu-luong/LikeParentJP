@@ -1,14 +1,13 @@
 package com.likeparentjp.activities;
 
-import java.io.IOException;
-
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,224 +28,221 @@ import com.likeparentjp.utils.RetainedFragmentManager;
  * @author applehouse
  */
 public class CropActivity extends LifecycleLoggingActivity {
-    public static final int REQUEST_CROP = 4;
-    /**
-     * Indication result code to tell main activity to retake photo
-     */
-    public static final int RESULT_RETAKE = 25;
-    /**
-     * Indication result code to tell main activity to reselect from gallery
-     */
-    public static final int RESULT_RESELECT = 26;
-    /**
-     * Key to find destination uri to save cropped image
-     */
-    public static final String DESTINATION_TAG = "i'm yours";
-    /**
-     * Retain Fragment Manager to handle configuration change
-     */
-    private RetainedFragmentManager mRetainedFragmentManager = 
-            new RetainedFragmentManager(getFragmentManager(), TAG);
+	public static final int REQUEST_CROP = 4;
+	/**
+	 * Indication result code to tell main activity to retake photo
+	 */
+	public static final int RESULT_RETAKE = 25;
+	/**
+	 * Indication result code to tell main activity to reselect from gallery
+	 */
+	public static final int RESULT_RESELECT = 26;
+	/**
+	 * Key to find destination uri to save cropped image
+	 */
+	public static final String DESTINATION_TAG = "i'm yours";
+	/**
+	 * Retain Fragment Manager to handle configuration change
+	 */
+	private RetainedFragmentManager mRetainedFragmentManager = new RetainedFragmentManager(
+			getFragmentManager(), TAG);
 
-    /**
-     * Crop image view to crop image
-     */
-    private CropImageView mCropImageView;
-    /**
-     * Progress face detecting dialog
-     */
-    private ProgressDialog mProgressDialog;
-    /**
-     * Operation of this view, play role presenter in pattern
-     */
-    private CropOps mOps;
+	/**
+	 * Crop image view to crop image
+	 */
+	private CropImageView mCropImageView;
+	/**
+	 * Progress face detecting dialog
+	 */
+	private ProgressDialog mProgressDialog;
+	/**
+	 * Operation of this view, play role presenter in pattern
+	 */
+	private CropOps mOps;
 
-    /**
-     * Function button
-     */
-    private LinearLayout mContainerButton;
-    private Button mCropButton;
-    private Button mRotateButton;
-    private String OPERATION_TAG = "crops_tag";
+	/**
+	 * Function button
+	 */
+	private LinearLayout mContainerButton;
+	private Button mCropButton;
+	private Button mRotateButton;
+	private String OPERATION_TAG = "crops_tag";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crop);
-        
-        //add up button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
-        // initialize button features
-        initialize();
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_crop);
 
-        // handle configuration changes
-        handleConfigurationChange();
+		// add up button
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    }
-    
+		// initialize button features
+		initialize();
 
-    private void handleConfigurationChange() {
-        if (mRetainedFragmentManager.firstTimeIn()) {
-            Log.d(TAG, "First time onCreate() call");
+		// handle configuration changes
+		handleConfigurationChange();
 
-            // first time in, create new Operation object
-            mOps = new CropOps(this);
-            // store object reference
-            mRetainedFragmentManager.put(OPERATION_TAG, mOps);
-            // setup crop image
-            setupCropImage();
-            
-        } else {
-            Log.d(TAG, "Not the first time");
+	}
 
-            // reobtain object
-            mOps = mRetainedFragmentManager.get(OPERATION_TAG);
-            mOps.onConfigurationChange(this);
-            
-            //re-set the display bitmap Uri imageUri = getIntent().getData();
-            setCropImageBitmap(mOps.getDisplayBitmap());
-        }
-    }
+	private void handleConfigurationChange() {
+		if (mRetainedFragmentManager.firstTimeIn()) {
+			Log.d(TAG, "First time onCreate() call");
 
-    private void initialize() {
-        // get Crop Image View reference and set up crop option
-        mCropImageView = (CropImageView) findViewById(R.id.CropImageView);
-        mCropImageView.setFixedAspectRatio(true);
-        mCropImageView.setAspectRatio(CropImageView.DEFAULT_ASPECT_RATIO_X,
-                CropImageView.DEFAULT_ASPECT_RATIO_Y);
-        // initialize view buttons
-        mContainerButton = (LinearLayout) findViewById(R.id.btn_container);
-        mCropButton = (Button) findViewById(R.id.button_crop);
-        mRotateButton = (Button) findViewById(R.id.button_rotate);
+			// first time in, create new Operation object
+			mOps = new CropOps(this);
+			// store object reference
+			mRetainedFragmentManager.put(OPERATION_TAG, mOps);
+			// setup crop image
+			setupCropImage();
 
-        mCropButton.setOnTouchListener(new OnTouchListener() {
+		} else {
+			Log.d(TAG, "Not the first time");
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mContainerButton.setBackgroundResource(R.drawable.btn2);
-                    return true;
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    mContainerButton.setBackgroundResource(R.drawable.btn);
-                    cropAndSaveImage(v);
-                    return true;
-                }
-                return false;
-            }
-        });
+			// reobtain object
+			mOps = mRetainedFragmentManager.get(OPERATION_TAG);
+			mOps.onConfigurationChange(this);
 
-        mRotateButton.setOnTouchListener(new OnTouchListener() {
+			// re-set the display bitmap Uri imageUri = getIntent().getData();
+			setCropImageBitmap(mOps.getDisplayBitmap());
+		}
+	}
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mContainerButton.setBackgroundResource(R.drawable.btn1);
-                    return true;
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    mContainerButton.setBackgroundResource(R.drawable.btn);
-                    rotateCropImage(v);
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
+	private void initialize() {
+		// get Crop Image View reference and set up crop option
+		mCropImageView = (CropImageView) findViewById(R.id.CropImageView);
+		mCropImageView.setFixedAspectRatio(true);
+		mCropImageView.setAspectRatio(CropImageView.DEFAULT_ASPECT_RATIO_X,
+				CropImageView.DEFAULT_ASPECT_RATIO_Y);
+		// initialize view buttons
+		mContainerButton = (LinearLayout) findViewById(R.id.btn_container);
+		mCropButton = (Button) findViewById(R.id.button_crop);
+		mRotateButton = (Button) findViewById(R.id.button_rotate);
 
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.crop, menu);
-        return true;
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_reselect) {
-            mOps.reselect();
-            return true;
-        } else if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
-    
-    private void setupCropImage() {
-        mOps.setUpCropImage();
-    }
+		mCropButton.setOnTouchListener(new OnTouchListener() {
 
-    /**
-     * Set image bit map to this crop image view
-     * 
-     * @param bitmap
-     */
-    public void setCropImageBitmap(Bitmap bitmap) {
-        mCropImageView.setImageBitmap(bitmap);
-        mOps.setDisplayBitmap(bitmap);
-    }
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					mContainerButton.setBackgroundResource(R.drawable.btn2);
+					return true;
+				}
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					mContainerButton.setBackgroundResource(R.drawable.btn);
+					cropAndSaveImage(v);
+					return true;
+				}
+				return false;
+			}
+		});
 
-    /**
-     * Crop and save image when press crop button, delegate to CropOps instance
-     * 
-     * @param v
-     */
-    public void cropAndSaveImage(View v) {
-        mOps.cropAndSaveImage(v);
-    }
+		mRotateButton.setOnTouchListener(new OnTouchListener() {
 
-    /**
-     * onClick method to rotate crop image
-     * 
-     * @param v
-     */
-    public void rotateCropImage(View v) {
-        mCropImageView.rotateImage(90);
-        mOps.rotateCropImage(v);
-    }
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					mContainerButton.setBackgroundResource(R.drawable.btn1);
+					return true;
+				}
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					mContainerButton.setBackgroundResource(R.drawable.btn);
+					rotateCropImage(v);
+					return true;
+				}
+				return false;
+			}
+		});
+	}
 
-    /**
-     * Static method to return a intent to start Crop activity,
-     * shield client from implementation detail
-     * 
-     * @param activity
-     * @param uri
-     *            uri to image file to save in after cropping
-     * @return Intent to start Crop Activity
-     */
-    public static Intent makeIntent(Context activity, Uri uri, Uri destination) {
-        Intent intent = new Intent(activity, CropActivity.class);
-        intent.setData(uri);
-        intent.putExtra(DESTINATION_TAG, destination.toString());
-        return intent;
-    }
-    
-        
-    public void showProgressDialog(String title, String Message) {
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setTitle(title);
-        mProgressDialog.setMessage(Message);
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.show();
-    }
-    
-    public void dismissProgressDialog() {
-        if (mProgressDialog != null)
-            if (mProgressDialog.isShowing())
-                mProgressDialog.dismiss();
-    }
-    
-    @Override
-    protected void onDestroy() {
-        dismissProgressDialog();
-        super.onDestroy();
-    }
-    
-    
-    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.crop, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_reselect:
+			Log.i(OPERATION_TAG, "item selected");
+			mOps.reselect();
+			return true;
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	private void setupCropImage() {
+		mOps.setUpCropImage();
+	}
+
+	/**
+	 * Set image bit map to this crop image view
+	 * 
+	 * @param bitmap
+	 */
+	public void setCropImageBitmap(Bitmap bitmap) {
+		mCropImageView.setImageBitmap(bitmap);
+		mOps.setDisplayBitmap(bitmap);
+	}
+
+	/**
+	 * Crop and save image when press crop button, delegate to CropOps instance
+	 * 
+	 * @param v
+	 */
+	public void cropAndSaveImage(View v) {
+		mOps.cropAndSaveImage(v);
+	}
+
+	/**
+	 * onClick method to rotate crop image
+	 * 
+	 * @param v
+	 */
+	public void rotateCropImage(View v) {
+		mCropImageView.rotateImage(90);
+		mOps.rotateCropImage(v);
+	}
+
+	/**
+	 * Static method to return a intent to start Crop activity, shield client
+	 * from implementation detail
+	 * 
+	 * @param activity
+	 * @param uri
+	 *            uri to image file to save in after cropping
+	 * @return Intent to start Crop Activity
+	 */
+	public static Intent makeIntent(Context activity, Uri uri, Uri destination) {
+		Intent intent = new Intent(activity, CropActivity.class);
+		intent.setData(uri);
+		intent.putExtra(DESTINATION_TAG, destination.toString());
+		return intent;
+	}
+
+	public void showProgressDialog(String title, String Message) {
+		mProgressDialog = new ProgressDialog(this);
+		mProgressDialog.setTitle(title);
+		mProgressDialog.setMessage(Message);
+		mProgressDialog.setCancelable(false);
+		mProgressDialog.setIndeterminate(true);
+		mProgressDialog.show();
+	}
+
+	public void dismissProgressDialog() {
+		if (mProgressDialog != null)
+			if (mProgressDialog.isShowing())
+				mProgressDialog.dismiss();
+	}
+
+	@Override
+	protected void onDestroy() {
+		dismissProgressDialog();
+		super.onDestroy();
+	}
+
 }
