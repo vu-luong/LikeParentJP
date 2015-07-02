@@ -74,6 +74,9 @@ public class CropActivity extends LifecycleLoggingActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop);
         
+        //add up button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
         // initialize button features
         initialize();
 
@@ -164,6 +167,9 @@ public class CropActivity extends LifecycleLoggingActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_reselect) {
             mOps.reselect();
+            return true;
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
             return true;
         } else {
             return super.onOptionsItemSelected(item);

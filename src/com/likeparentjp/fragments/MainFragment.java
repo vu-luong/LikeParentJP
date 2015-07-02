@@ -2,6 +2,7 @@ package com.likeparentjp.fragments;
 
 import com.likeparentjp.R;
 import com.likeparentjp.activities.MainActivity;
+import com.likeparentjp.operations.LikeParentOps;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class MainFragment extends Fragment {
         
         
         //set 3 bitmaps to 3 views in mainFragment again
-        ((MainActivity) getActivity()).getOps().resetView();
+        getOps().resetView();
         
         
         //set touch listener for color changing
@@ -55,7 +56,7 @@ public class MainFragment extends Fragment {
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
                     mButtonContainer.setBackgroundResource(R.drawable.btn);
-                    ((MainActivity) getActivity()).resetImage();
+                    getMainActivity().resetImage();
                     return true;
                 }
                 return false;
@@ -74,12 +75,9 @@ public class MainFragment extends Fragment {
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
                     Log.i(TAG, "UPPPP");
                     mButtonContainer.setBackgroundResource(R.drawable.btn);
-                    //TODO--
                     //check: if 3 views are set, then user can touch this button
-                    if (((MainActivity) getActivity()).getOps().allViewAreSet())
-                    {
-                    	
-                    	((MainActivity) getActivity()).analyzeImage();
+                    if (getOps().allViewAreSet()) {
+                    	getMainActivity().analyzeImage();
                     } else {
                     	Toast.makeText(getActivity(), 
                     			"Please set pictures for all frames", 
@@ -95,8 +93,24 @@ public class MainFragment extends Fragment {
         });
     }
 
-    
+    /**
+     * Helper find View method
+     */
     public View findViewById(int id) {
         return mMainView.findViewById(id);
+    }
+    
+    /**
+     * Helper get Ops method
+     */
+    private LikeParentOps getOps() {
+        return ((MainActivity) getActivity()).getOps();
+    }
+    /**
+     * Get Mainactivity associate with this fragment
+     * @return
+     */
+    private MainActivity getMainActivity() {
+        return ((MainActivity) getActivity());
     }
 }

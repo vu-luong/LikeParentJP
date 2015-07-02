@@ -59,7 +59,7 @@ public class ResultFragment extends Fragment {
         //set the width of the screen for V_WIDTH
         V_WIDTH = getActivity().getWindowManager().getDefaultDisplay().getWidth();
         //calculate the result
-        ((MainActivity) getActivity()).getOps().analyzeImage();;
+        getOps().analyzeImage();;
         
         //set touch listener for color changing
         mShareButton.setOnTouchListener(new OnTouchListener() {
@@ -72,7 +72,7 @@ public class ResultFragment extends Fragment {
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
                     mButtonContainer.setBackgroundResource(R.drawable.btn);
-                    ((MainActivity) getActivity()).share();
+                    getMainActivity().share();
                     
                     return true;
                 }
@@ -92,7 +92,7 @@ public class ResultFragment extends Fragment {
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
                     mButtonContainer.setBackgroundResource(R.drawable.btn);
                     
-                    ((MainActivity) getActivity()).retake();
+                    getMainActivity().retake();
                     
                     return true;
                 }
@@ -135,5 +135,20 @@ public class ResultFragment extends Fragment {
         initialResultCircle(mDadCircle, "DAD", percentDad);
         initialResultCircle(mMomCircle, "MOM", 100 - percentDad);
     }
+    
+    /**
+     * Helper get Ops method
+     */
+    private LikeParentOps getOps() {
+        return ((MainActivity) getActivity()).getOps();
+    }
+    /**
+     * Get Mainactivity associate with this fragment
+     * @return
+     */
+    private MainActivity getMainActivity() {
+        return ((MainActivity) getActivity());
+    }
+
 
 }
